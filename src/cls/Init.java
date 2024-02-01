@@ -1,12 +1,6 @@
 package cls;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-
-public class SimpleTester {
+public class Init {
     public static void main(String[] args) {
         //createCompanyTable();
         //createCustomersTable();

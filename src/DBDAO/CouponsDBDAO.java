@@ -104,15 +104,18 @@ public class CouponsDBDAO implements CouponsDao {
 
     @Override
     public void addCouponPurchase(int customerID, int couponID) {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1,customerID);
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, customerID);
         params.put(2, couponID);
 
-        DButils.runQuery(SQLcommands.addCouponPurchase,params);
+        DButils.runQuery(SQLcommands.addCouponPurchase, params);
     }
 
     @Override
     public void deleteCouponPurchase(int customersID, int couponID) {
-DButils.runQueryFroResult(SQLcommands.deleteCoupon);
+        Map<Integer, Object> params = new HashMap<>();
+        params.remove(1, customersID);
+        params.remove(2, couponID);
+        DButils.runQueryFroResult(SQLcommands.deleteCoupon,params);
     }
 }
