@@ -15,6 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomersDBDAO implements CustomersDAO {
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
+    }
+
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     private ConnectionPool connectionPool;
     @Override
     public boolean isCustomerExists(String email, String password) {
@@ -68,7 +76,7 @@ public class CustomersDBDAO implements CustomersDAO {
     }
 
     @Override
-    public Customer getOneCustomer(int CustomerID) throws sqlExceptions {
+    public void getOneCustomer(int CustomerID) throws sqlExceptions {
         Customer customer = new Customer();
         ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCustomer);
      try {
@@ -83,7 +91,7 @@ public class CustomersDBDAO implements CustomersDAO {
         } catch (SQLException err){
             throw new sqlExceptions(err.getMessage());
         }
-       return customer;
+
     }
 }
 

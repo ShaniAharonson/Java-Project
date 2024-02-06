@@ -4,6 +4,8 @@ import Exceptions.sqlExceptions;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
+import cls.DButils;
+import cls.SQLAdminFacade;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -12,114 +14,80 @@ import java.util.List;
 
 public class AdminFacade extends ClientFacade {
 
-
-    @Override
-    public boolean isCompanyExists(String email, String password) throws sqlExceptions {
+    public boolean login(String email, String password) {
         if (email.equals("admin@admin.com") && password.equals("admin")) {
             System.out.println("Login successfully");
             return true;
+        } else if (email == null || password == null) {
+            System.out.println("are you an admin?");
+            return false;
         } else {
             System.out.println("Wrong email or password!");
+            return false;
         }
-        return false;
     }
 
-    @Override
     public void addCompany(Integer id, String name, String email, String password) throws sqlExceptions {
 
         try {
 
-        } catch (sqlExceptions exceptions) {
-            throw new sqlExceptions(exceptions.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCompany(Company company) throws sqlExceptions {
-        try {
-
-        } catch (sqlExceptions err) {
+        } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());
         }
     }
 
-    @Override
+    public void updateCompany(Company company) throws sqlExceptions {
+        try {
+            DButils.runQuery(SQLAdminFacade.updateExistingCompany);
+        } catch (SQLException err) {
+            throw new sqlExceptions(err.getMessage());
+        }
+    }
+
     public void deleteCompany(int id) {
-
+// coupons will delete because of cascading in foreign key
     }
 
-    @Override
     public List<Company> getAllCompanies() throws SQLException {
-        return getAllCompanies();
+        List<Company> myList = new ArrayList<>();
+        DButils.runQueryFroResult(SQLAdminFacade.returnAllCompanies);
+        return myList;
     }
 
-    @Override
+
     public Company getOneCompany(int CompanyID) throws sqlExceptions {
-        return null;
+        return (Company) DButils.runQueryFroResult(SQLAdminFacade.returnSpecificCompany);
     }
 
-    @Override
-    public void addCoupon(Integer id, Integer companyId, Integer categoryId, String title, String description, Date startDate, Date endDate, Integer amount, Double price) {
 
+    public void addCustomer(Integer id, String firstName, String lastName, String email, String password) throws sqlExceptions {
+        try {
+            Customer customer = new Customer();
+        } catch (SQLException err) {
+            throw new sqlExceptions(err.getMessage());
+        }
     }
 
-    @Override
-    public void updateCoupon(Coupon coupon) {
+    public void updateCustomer(Customer customer) throws sqlExceptions {
+        try {
 
+            DButils.runQuery(SQLAdminFacade.updateExistingCustomer);
+        } catch (SQLException err) {
+            throw new sqlExceptions(err.getMessage());
+        }
     }
 
-    @Override
-    public void deleteCoupon(int id) {
-
-    }
-
-    @Override
-    public List<Coupon> getAllCoupons(ArrayList<Coupon> coupons) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
-        return null;
-    }
-
-    @Override
-    public void addCouponPurchase(int customerID, int couponID) {
-
-    }
-
-    @Override
-    public void deleteCouponPurchase(int customersID, int couponID) {
-
-    }
-
-    @Override
-    public boolean isCustomerExists(String email, String password) {
-        return false;
-    }
-
-    @Override
-    public void addCustomer(Integer id, String firstName, String lastName, String email, String password) {
-
-    }
-
-    @Override
-    public void updateCustomer(Customer customer) {
-
-    }
-
-    @Override
     public void deleteCustomer(int id) {
-
+        DButils.runQuery(SQLAdminFacade.deleteExistingCustomer);
     }
 
-    @Override
     public List<Customer> getAllCustomers() throws SQLException {
-        return null;
+        List<Customer> customersList = new ArrayList<>();
+        DButils.runQueryFroResult(SQLAdminFacade.returnAllCustomers);
+        return customersList;
     }
 
-    @Override
-    public Customer getOneCustomer(int CustomerID) throws sqlExceptions {
-        return null;
+     public void getOneCustomer(int CustomerID) throws sqlExceptions {
+        DButils.runQueryFroResult(SQLAdminFacade.returnOneCustomer);
     }
 }

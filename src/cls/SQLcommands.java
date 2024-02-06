@@ -76,6 +76,7 @@ public class SQLcommands {
     public static String getAllCompanies = "SELECT * FROM javaproject.companies";
 
     public static String getOneCompany = "SELECT * FROM javaproject.companies where id = ?";
+    public static final String getCompanyDetails = "SELECT companies FROM javaproject.companies where id = ?";
 
     // ************************************ Customers SQL *************************************
 
@@ -119,4 +120,10 @@ public class SQLcommands {
 
     public static String deleteCouponPurchase = "delete FROM javaproject.customers_vs_coupons " +
             "where customers_id = ? and coupon_id = ?";
+
+    public static final String getAllCompanyCoupon = "SELECT * FROM javaproject.coupons where company_id = ?";
+    public static final String getGetAllCompaniesCouponFromSpecificCategory =" "+
+            "SELECT * FROM javaproject.coupons " +
+            "where company_id = ? AND category_id = ?";
+    public static final String getCouponsByPrice = "SELECT * FROM javaproject.coupons where company_id = ? AND price = ?";
 }

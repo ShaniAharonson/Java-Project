@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface CustomersDAO {
     public boolean isCustomerExists (String email, String password);
-    public void addCustomer(Integer id, String firstName,String lastName, String email, String password);
-    public void updateCustomer(Customer customer);
+    public void addCustomer(Integer id, String firstName,String lastName, String email, String password) throws sqlExceptions;
+    public void updateCustomer(Customer customer) throws sqlExceptions;
     public void deleteCustomer(int id);
     public List<Customer> getAllCustomers() throws SQLException;
-    public Customer getOneCustomer(int CustomerID) throws sqlExceptions;
+    public void getOneCustomer(int CustomerID) throws sqlExceptions;
 }

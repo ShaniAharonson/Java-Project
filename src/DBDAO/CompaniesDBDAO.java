@@ -15,6 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 public class CompaniesDBDAO implements CompaniesDAO {
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
+    }
+
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     private ConnectionPool connectionPool;
 
     @Override
@@ -91,5 +99,17 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
 
         return company;
+    }
+
+    @Override
+    public void companyDetails(String name, String email) {
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getCompanyDetails);
+        try {
+           name = result.getString(2);
+           email = result.getString(3);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Company name: " + name +" \n email: " + email);
     }
 }

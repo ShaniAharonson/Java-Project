@@ -1,24 +1,15 @@
 package Facade;
 
-import DAO.CompaniesDAO;
-import DAO.CouponsDao;
-import DAO.CustomersDAO;
+import DBDAO.CompaniesDBDAO;
+import DBDAO.CouponsDBDAO;
+import DBDAO.CustomersDBDAO;
 
-public abstract class ClientFacade implements CompaniesDAO, CouponsDao, CustomersDAO {
-    protected CompaniesDAO companiesDAO;
-    protected CustomersDAO customersDAO;
-    protected CouponsDao couponsDao;
+public abstract class ClientFacade {
+    protected CompaniesDBDAO companiesDBDAO = new CompaniesDBDAO();
+    protected CustomersDBDAO customersDBDAO = new CustomersDBDAO();
+    protected CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
 
-    public static boolean login(String email, String password, ClientType type) {
-        switch (type) {
-            case ADMIN:
-                new AdminFacade();
-            case COMPANY:
-                new CompanyFacade();
-            case CUSTOMER:
-                new CustomerFacade();
-        }
-        return false;
-    }
+    public abstract boolean login(String email, String password) ;
+
 }
 

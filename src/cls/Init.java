@@ -29,7 +29,7 @@ public class Init {
         DButils.runQuery(SQLcommands.CREATE_CUSTOMERS_VS_COUPONS_TABLE);
     }
 
-
+/// dont forget to change sql command for tables to another class!!!
     }
 
 

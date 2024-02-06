@@ -17,23 +17,30 @@ import java.util.List;
 import java.util.Map;
 
 public class CouponsDBDAO implements CouponsDao {
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
+    }
+
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     private ConnectionPool connectionPool;
 
     @Override
-    public void addCoupon(Integer id, Integer companyId, Integer categoryId, String title,
-                          String description, Date startDate, Date endDate, Integer amount,
-                          Double price) {
+    public void addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
         //id, firstName, lastName, email, password
-        params.put(1, id);
-        params.put(2, categoryId);
-        params.put(3, companyId);
-        params.put(4, title);
-        params.put(5, description);
-        params.put(6, startDate);
-        params.put(7, endDate);
-        params.put(8, amount);
-        params.put(9, price);
+        params.put(1, coupon.getId());
+        params.put(2, coupon.getCategory());
+        params.put(3, coupon.getCompanyID());
+        params.put(4, coupon.getTitle());
+        params.put(5, coupon.getDescription());
+        params.put(6, coupon.getStartDate());
+        params.put(7, coupon.getEndDate());
+        params.put(8, coupon.getAmount());
+        params.put(9, coupon.getPrice());
+        params.put(10, coupon.getImage());
 
 
         DButils.runQuery(SQLcommands.addCoupon, params);
@@ -42,7 +49,7 @@ public class CouponsDBDAO implements CouponsDao {
     @Override
     public void updateCoupon(Coupon coupon) {
         ResultSet update = DButils.runQueryFroResult(SQLcommands.updateCoupon);
-        System.out.println(update);
+        System.out.println("The updated coupon: " + update);
     }
 
     @Override
@@ -116,6 +123,41 @@ public class CouponsDBDAO implements CouponsDao {
         Map<Integer, Object> params = new HashMap<>();
         params.remove(1, customersID);
         params.remove(2, couponID);
-        DButils.runQueryFroResult(SQLcommands.deleteCoupon,params);
+        DButils.runQueryFroResult(SQLcommands.deleteCoupon, params);
+    }
+
+    @Override
+    public List<Coupon> getAllCompanyCoupons(int companyID) {
+        List<Coupon> companyCoupon = new ArrayList<>();
+        ResultSet theCoupons = DButils.runQueryFroResult(SQLcommands.getAllCompanyCoupon);
+        return companyCoupon;
+    }
+
+    @Override
+    public List<Coupon> getAllCompanyCouponFromSpecificCategory(int companyID, Category category) throws sqlExceptions {
+        List<Coupon> couponsFromCategory = new ArrayList<>();
+        ResultSet coupons = DButils.runQueryFroResult(SQLcommands.getGetAllCompaniesCouponFromSpecificCategory);
+        try {
+            while (coupons.next()) {
+                companyID = coupons.getInt(2);
+                category = (Category) coupons.getObject(3);
+            }
+        } catch (SQLException err) {
+            throw new sqlExceptions(err.getMessage());
+        }
+        return couponsFromCategory;
+    }
+
+    @Override
+    public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException {
+        List<Coupon> couponsByPrice = new ArrayList<>();
+        ResultSet coupons = DButils.runQueryFroResult(SQLcommands.getCouponsByPrice);
+        while (coupons.next()){
+            CompanyID = coupons.getInt(2);
+            price = coupons.getDouble(9);
+
+
+        }
+        return couponsByPrice;
     }
 }
