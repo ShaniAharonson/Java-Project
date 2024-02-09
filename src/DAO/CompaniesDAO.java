@@ -9,7 +9,7 @@ import java.util.List;
 public interface CompaniesDAO {
     public boolean isCompanyExists(String email, String password) throws sqlExceptions;
 
-    public void addCompany(Integer id, String name, String email, String password) throws sqlExceptions;
+    public void addCompany(Company company) throws sqlExceptions;
 
     public void updateCompany(Company company) throws sqlExceptions;
 

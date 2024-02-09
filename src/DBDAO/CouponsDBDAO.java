@@ -6,6 +6,7 @@ import JavaBeans.Category;
 import JavaBeans.Coupon;
 import cls.ConnectionPool;
 import cls.DButils;
+import cls.SQLCustomerFacade;
 import cls.SQLcommands;
 
 import java.sql.Date;
@@ -127,9 +128,12 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public List<Coupon> getAllCompanyCoupons(int companyID) {
+    public List<Coupon> getAllCompanyCoupons(int companyID) throws SQLException {
         List<Coupon> companyCoupon = new ArrayList<>();
         ResultSet theCoupons = DButils.runQueryFroResult(SQLcommands.getAllCompanyCoupon);
+        while (theCoupons.next()) {
+            companyCoupon.add((Coupon) theCoupons);
+        }
         return companyCoupon;
     }
 
@@ -141,6 +145,7 @@ public class CouponsDBDAO implements CouponsDao {
             while (coupons.next()) {
                 companyID = coupons.getInt(2);
                 category = (Category) coupons.getObject(3);
+                couponsFromCategory.add((Coupon) coupons);
             }
         } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());
@@ -152,12 +157,46 @@ public class CouponsDBDAO implements CouponsDao {
     public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException {
         List<Coupon> couponsByPrice = new ArrayList<>();
         ResultSet coupons = DButils.runQueryFroResult(SQLcommands.getCouponsByPrice);
-        while (coupons.next()){
+        while (coupons.next()) {
             CompanyID = coupons.getInt(2);
             price = coupons.getDouble(9);
-
-
+            couponsByPrice.add((Coupon) coupons);
         }
         return couponsByPrice;
     }
+
+    @Override
+    public List<Coupon> getAllCustomerCoupons(int CustomerID) throws SQLException {
+        List<Coupon> myList = new ArrayList<>();
+        ResultSet theCoupons = DButils.runQueryFroResult(SQLCustomerFacade.getAllCustomerCoupons);
+        while (theCoupons.next()) {
+            myList.add((Coupon) theCoupons);
+        }
+        return myList;
+
+
+    }
+
+    @Override
+    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException {
+        List<Coupon> couponsFromCategory = new ArrayList<>();
+        ResultSet coupon = DButils.runQueryFroResult(SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory);
+        while (coupon.next()){
+            couponsFromCategory.add((Coupon) coupon);
+        }
+        return couponsFromCategory;
+    }
+
+    @Override
+    public List<Coupon> getCustomerCouponsByPrice(Integer customerID, Double price) throws SQLException {
+        List<Coupon> couponsByPrice = new ArrayList<>();
+        ResultSet coupons = DButils.runQueryFroResult(SQLCustomerFacade.getCouponByPrice);
+        customerID = coupons.getInt(1);
+        price = coupons.getDouble(9);
+        couponsByPrice.add((Coupon) coupons);
+
+        return couponsByPrice;
+    }
 }
+
+

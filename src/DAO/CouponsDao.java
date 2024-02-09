@@ -23,10 +23,13 @@ public interface CouponsDao {
 
     public void deleteCouponPurchase(int customersID, int couponID);
 
-    public List<Coupon> getAllCompanyCoupons(int companyID);
+    public List<Coupon> getAllCompanyCoupons(int companyID) throws SQLException;
 
     public List<Coupon> getAllCompanyCouponFromSpecificCategory(int companyID, Category category) throws sqlExceptions;
 
     public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException;
+    public List<Coupon> getAllCustomerCoupons(int CustomerID) throws SQLException;
+    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException;
+    public List<Coupon> getCustomerCouponsByPrice(Integer customerID, Double price) throws SQLException;
 }
 

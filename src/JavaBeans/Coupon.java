@@ -8,8 +8,8 @@ public class Coupon {
     private JavaBeans.Category category;
     private String title;
     private String description;
-    private Date startDate;
-    private  Date endDate;
+    private java.sql.Date startDate;
+    private java.sql.Date endDate;
     private int amount;
     private Double price;
     private String image;
@@ -27,8 +27,8 @@ public class Coupon {
         this.category = category;
         this.title = title;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = (java.sql.Date) startDate;
+        this.endDate = (java.sql.Date) endDate;
         this.amount = amount;
         this.price = price;
         this.image = image;
@@ -79,7 +79,7 @@ public class Coupon {
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = (java.sql.Date) startDate;
     }
 
     public Date getEndDate() {
@@ -87,7 +87,7 @@ public class Coupon {
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = (java.sql.Date) endDate;
     }
 
     public Integer getAmount() {

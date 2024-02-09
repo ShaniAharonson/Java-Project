@@ -1,8 +1,8 @@
 package Facade;
 
-import DBDAO.CouponsDBDAO;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
+import JavaBeans.Company;
 import JavaBeans.Coupon;
 import cls.DButils;
 import cls.SQLCompanyFacade;
@@ -13,25 +13,15 @@ import java.util.List;
 
 public class CompanyFacade extends ClientFacade {
     @Override
-    public boolean login(String email, String password) {
+    public boolean login(String email, String password) throws SQLException {
 
         ResultSet companyID = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin);
-        while (true) {
-            try {
-                if (!companyID.next()) {
-                    System.out.println("There is no user with this ID");
-                    break;
-                }
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                int CompanyID = companyID.getInt(1);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        while (companyID.next()) {
+            companyID.getInt(1);
+            Company company = new Company();
+            company.setPassword(company.getPassword());
+            company.setEmail(company.getEmail());
+          }
         System.out.println("Company ID is: " + companyID);
         // getting company ID if login was successful
         return true;
@@ -51,7 +41,7 @@ public class CompanyFacade extends ClientFacade {
         if (companiesDBDAO.getAllCompanies().contains(coupon.getCompanyID())) {
 
             try {
-                throw new Exception("You cannot add coupon with the same name");
+                throw new Exception("Coupon already exists!");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -61,18 +51,34 @@ public class CompanyFacade extends ClientFacade {
     }
 
     public void updateCoupon(Coupon coupon) throws sqlExceptions {
-        try {
-            couponsDBDAO.updateCoupon(coupon);
-        } catch (SQLException err) {
-            throw new sqlExceptions("update coupon was failed!");
-        }
+        couponsDBDAO.updateCoupon(coupon);
     }
 
     public void deleteExistsCoupon(Coupon coupon) {
 
-        try {
-            couponsDBDAO.deleteCoupon(coupon.getId());
+        couponsDBDAO.deleteCoupon(coupon.getId());
 
+    }
+
+    public List<Coupon> getAllCompanyCoupon(int companyID) {
+        try {
+            return couponsDBDAO.getAllCompanyCoupons(companyID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) {
+        try {
+            return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID, category);
+        } catch (sqlExceptions e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException {
+        try {
+            return couponsDBDAO.getCouponByPrice(companyID, price);
         } catch (SQLException err) {
             try {
                 throw new sqlExceptions(err.getMessage());
@@ -81,36 +87,8 @@ public class CompanyFacade extends ClientFacade {
             }
         }
     }
-
-    public List<Coupon> getAllCompanyCoupon(int companyID){
-        try {
-            return couponsDBDAO.getAllCompanyCoupons(companyID);
-        } catch (SQLException err){
-            try {
-                throw new sqlExceptions(err.getMessage());
-            } catch (sqlExceptions e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public void companyDetails(String name, String email) {
+        companiesDBDAO.companyDetails(name,email);
     }
-    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category){
-        try {
-            return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID,category);
-        } catch (sqlExceptions e) {
-            throw new RuntimeException(e);
-        }
-    }
-public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException {
-        try {
-            return couponsDBDAO.getCouponByPrice(companyID, price);
-        }catch (SQLException err){
-            try {
-                throw new sqlExceptions(err.getMessage());
-            } catch (sqlExceptions e) {
-                throw new RuntimeException(e);
-            }
-        }
-}
-
 
 }

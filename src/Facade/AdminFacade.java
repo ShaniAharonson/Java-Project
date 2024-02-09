@@ -4,12 +4,8 @@ import Exceptions.sqlExceptions;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
-import cls.DButils;
-import cls.SQLAdminFacade;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminFacade extends ClientFacade {
@@ -27,67 +23,72 @@ public class AdminFacade extends ClientFacade {
         }
     }
 
-    public void addCompany(Integer id, String name, String email, String password) throws sqlExceptions {
+    public void addCompany(Company company) throws sqlExceptions, SQLException {
 
-        try {
+        if (companiesDBDAO.getAllCompanies().contains(company.getName()))
+            if (companiesDBDAO.getAllCompanies().contains(company.getEmail())) {
+                System.out.println("Company already exists!");
+            } else {
+                companiesDBDAO.addCompany(company);
+            }
 
-        } catch (SQLException err) {
-            throw new sqlExceptions(err.getMessage());
-        }
     }
 
     public void updateCompany(Company company) throws sqlExceptions {
-        try {
-            DButils.runQuery(SQLAdminFacade.updateExistingCompany);
-        } catch (SQLException err) {
-            throw new sqlExceptions(err.getMessage());
-        }
+        companiesDBDAO.updateCompany(company);
     }
 
-    public void deleteCompany(int id) {
-// coupons will delete because of cascading in foreign key
+    public void deleteCompany(int companyID) throws SQLException {
+        // Company company  = new Company();
+        List<Coupon> companyCoupons = couponsDBDAO.getAllCompanyCoupons(companyID);
+        for (Coupon c : companyCoupons) {
+            couponsDBDAO.deleteCoupon(c.getId());
+        }
+        companiesDBDAO.deleteCompany(companyID);
+
     }
+// Customers coupons will delete because of cascading in foreign key
+
 
     public List<Company> getAllCompanies() throws SQLException {
-        List<Company> myList = new ArrayList<>();
-        DButils.runQueryFroResult(SQLAdminFacade.returnAllCompanies);
-        return myList;
+        return companiesDBDAO.getAllCompanies();
+
     }
 
 
-    public Company getOneCompany(int CompanyID) throws sqlExceptions {
-        return (Company) DButils.runQueryFroResult(SQLAdminFacade.returnSpecificCompany);
+    public Company getOneCompany(int companyID) throws sqlExceptions {
+        return companiesDBDAO.getOneCompany(companyID);
     }
 
 
-    public void addCustomer(Integer id, String firstName, String lastName, String email, String password) throws sqlExceptions {
+    public void addCustomer(Customer customer) throws sqlExceptions {
         try {
-            Customer customer = new Customer();
-        } catch (SQLException err) {
-            throw new sqlExceptions(err.getMessage());
+            if (customersDBDAO.getAllCustomers().contains(customer.getEmail())){
+                System.out.println("Customer already exists!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        customersDBDAO.addCustomer(customer);
     }
 
-    public void updateCustomer(Customer customer) throws sqlExceptions {
-        try {
-
-            DButils.runQuery(SQLAdminFacade.updateExistingCustomer);
-        } catch (SQLException err) {
-            throw new sqlExceptions(err.getMessage());
-        }
+    public void updateCustomer(Customer customer) throws Exception, SQLException {
+        customersDBDAO.updateCustomer(customer);
     }
 
-    public void deleteCustomer(int id) {
-        DButils.runQuery(SQLAdminFacade.deleteExistingCustomer);
+    public void deleteCustomer(int customerID) throws SQLException {
+        List<Coupon> customerCoupons = couponsDBDAO.getAllCustomerCoupons(customerID);
+        for (Coupon c : customerCoupons) {
+            couponsDBDAO.deleteCoupon(c.getId());
+        }
+        customersDBDAO.deleteCustomer(customerID);
     }
 
     public List<Customer> getAllCustomers() throws SQLException {
-        List<Customer> customersList = new ArrayList<>();
-        DButils.runQueryFroResult(SQLAdminFacade.returnAllCustomers);
-        return customersList;
+        return customersDBDAO.getAllCustomers();
     }
 
-     public void getOneCustomer(int CustomerID) throws sqlExceptions {
-        DButils.runQueryFroResult(SQLAdminFacade.returnOneCustomer);
+    public Customer getOneCustomer(int customerID) throws sqlExceptions {
+        return customersDBDAO.getOneCustomer(customerID);
     }
 }

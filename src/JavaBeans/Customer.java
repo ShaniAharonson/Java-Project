@@ -21,7 +21,6 @@ public class Customer {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.coupons = coupons;
     }
 
     public Integer getId() {
