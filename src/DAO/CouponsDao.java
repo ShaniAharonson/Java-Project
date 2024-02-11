@@ -31,5 +31,6 @@ public interface CouponsDao {
     public List<Coupon> getAllCustomerCoupons(int CustomerID) throws SQLException;
     public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException;
     public List<Coupon> getCustomerCouponsByPrice(Integer customerID, Double price) throws SQLException;
+    public void getAllCouponsByEndDate(ArrayList<Coupon> coupons)  throws SQLException;
 }
 

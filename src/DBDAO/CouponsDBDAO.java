@@ -4,14 +4,12 @@ import DAO.CouponsDao;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
-import cls.ConnectionPool;
-import cls.DButils;
-import cls.SQLCustomerFacade;
-import cls.SQLcommands;
+import cls.*;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,6 +195,23 @@ public class CouponsDBDAO implements CouponsDao {
 
         return couponsByPrice;
     }
+
+    @Override
+    public void getAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException {
+        ArrayList<Coupon> couponArrayList= new ArrayList<>();
+        ResultSet couponsByDate = DButils.runQueryFroResult(SQLTasks.getCouponsByEndDate);
+
+        while (couponsByDate.next()){
+            {
+                Coupon currentCoupon = new Coupon();
+                if (currentCoupon.getEndDate() > LocalTime.now()){
+                    couponArrayList.add(currentCoupon);
+                }
+            }
+        }
+    }
+
+
 }
 
 
