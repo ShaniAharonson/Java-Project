@@ -1,6 +1,7 @@
 package Facade;
 
 import Exceptions.sqlExceptions;
+import IFacades.ICustomer;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CustomerFacade extends ClientFacade {
+public class CustomerFacade extends ClientFacade implements ICustomer {
     public int getCustomerID() {
         return CustomerID;
     }

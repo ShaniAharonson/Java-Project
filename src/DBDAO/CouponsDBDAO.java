@@ -9,7 +9,6 @@ import cls.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -199,19 +198,14 @@ public class CouponsDBDAO implements CouponsDao {
     @Override
     public void getAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException {
         ArrayList<Coupon> couponArrayList= new ArrayList<>();
-        ResultSet couponsByDate = DButils.runQueryFroResult(SQLTasks.getCouponsByEndDate);
+        DButils.runQuery(SQLTasks.getCouponsByEndDate);
 
-        while (couponsByDate.next()){
-            {
-                Coupon currentCoupon = new Coupon();
-                if (currentCoupon.getEndDate() > LocalTime.now()){
-                    couponArrayList.add(currentCoupon);
-                }
-            }
+
         }
+
     }
 
 
-}
+
 
 

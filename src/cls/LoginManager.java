@@ -22,15 +22,11 @@ public class LoginManager {
     }
 
     public ClientFacade login(String email, String password, ClientType type) {
-        switch (type) {
-            case ADMINISTRATOR:
-                return new AdminFacade();
-            case COMPANY:
-                return new CompanyFacade();
-            case CUSTOMER:
-                return new CustomerFacade();
-            default:
-                throw new IllegalStateException("Unexpected value: " + type);
-        }
+        return switch (type) {
+            case ADMINISTRATOR -> new AdminFacade();
+            case COMPANY -> new CompanyFacade();
+            case CUSTOMER -> new CustomerFacade();
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
     }
 }

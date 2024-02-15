@@ -1,6 +1,7 @@
 package Facade;
 
 import Exceptions.sqlExceptions;
+import IFacades.IAdmin;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
@@ -8,7 +9,7 @@ import JavaBeans.Customer;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AdminFacade extends ClientFacade {
+public class AdminFacade extends ClientFacade implements IAdmin {
 
     public boolean login(String email, String password) {
         if (email.equals("admin@admin.com") && password.equals("admin")) {

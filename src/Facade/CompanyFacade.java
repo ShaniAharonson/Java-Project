@@ -1,6 +1,7 @@
 package Facade;
 
 import Exceptions.sqlExceptions;
+import IFacades.ICompany;
 import JavaBeans.Category;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
@@ -11,8 +12,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CompanyFacade extends ClientFacade {
-    @Override
+public class CompanyFacade extends ClientFacade implements ICompany {
+    private int companyID;
+    public int getCompanyID() {
+        return companyID;
+    }
+    public void setCompanyID(int companyID) {
+        this.companyID = companyID;
+    }
+
+       @Override
     public boolean login(String email, String password) throws SQLException {
 
         ResultSet companyID = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin);
@@ -27,15 +36,7 @@ public class CompanyFacade extends ClientFacade {
         return true;
     }
 
-    public int getCompanyID() {
-        return companyID;
-    }
 
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
-    }
-
-    private int companyID;
 
     public void addCoupon(Coupon coupon) throws SQLException {
         if (companiesDBDAO.getAllCompanies().contains(coupon.getCompanyID())) {

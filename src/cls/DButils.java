@@ -11,8 +11,7 @@ public class DButils {
 
         try {
             if (sql.toLowerCase().contains("delete")){
-                System.out.println("Roni please stop");
-                return false;
+             return false;
             }
             //get a connection from connection pool
             connection = ConnectionPool.getInstance().getConnection();
