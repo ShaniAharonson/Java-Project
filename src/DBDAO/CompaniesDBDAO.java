@@ -88,11 +88,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public Company getOneCompany(int CompanyID) throws sqlExceptions {
         Company company = new Company();
-       // Map<Integer,Object> params = new HashMap<>();
+       Map<Integer,Object> params = new HashMap<>();
 
-        //params.put(1, company.getName());
+        params.put(1, company.getName());
 
-        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCompany);
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCompany,params);
 
         try {
             while (result.next()) {
