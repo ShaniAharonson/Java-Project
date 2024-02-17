@@ -11,4 +11,8 @@ public class SQLCompanyFacade {
             "BEFORE UPDATE ON javaproject.coupons FOR EACH ROW    \n" +
             "         BEGIN    " +
             "        END;     ";
+    public static final String getGetAllCompaniesCouponFromSpecificCategory =" "+
+            "SELECT * FROM javaproject.coupons " +
+            "where company_id = ? AND category_id = ?";
+    public static final String getCouponsByPrice = "SELECT MAX(price) FROM javaproject.coupons where company_id = ?";
 }

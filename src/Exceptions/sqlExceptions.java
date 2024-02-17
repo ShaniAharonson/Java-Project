@@ -7,6 +7,10 @@ public class sqlExceptions extends Exception {
 
     }
 
+    /**
+     * sql exception by error code
+     * @param message
+     */
     public sqlExceptions(String message) {
         switch (message) {
             case "1364":

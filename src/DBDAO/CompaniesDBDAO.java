@@ -45,18 +45,22 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public void addCompany(Company company) {
         Map<Integer, Object> params = new HashMap<>();
         //id, name, email, password
-        params.put(1, company.getId());
-        params.put(2, company.getName());
-        params.put(3, company.getEmail());
-        params.put(4, company.getPassword());
+        params.put(1, company.getName());
+        params.put(2, company.getEmail());
+        params.put(3, company.getPassword());
+
 
         DButils.runQuery(SQLcommands.addCompany, params);
     }
 
     @Override
     public void updateCompany(Company company) {
-        ResultSet update = DButils.runQueryFroResult(SQLcommands.updateCompany);
-        System.out.println(update);
+        Map<Integer,Object> params = new HashMap<>();
+        params.put(1, company.getName());
+        params.put(2, company.getEmail());
+        params.put(3, company.getPassword());
+        DButils.runQuery(SQLcommands.updateCompany,params);
+        System.out.println("Company updated!");
 
     }
 
@@ -84,15 +88,19 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public Company getOneCompany(int CompanyID) throws sqlExceptions {
         Company company = new Company();
+       // Map<Integer,Object> params = new HashMap<>();
+
+        //params.put(1, company.getName());
 
         ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCompany);
 
         try {
             while (result.next()) {
-                company.setId(result.getInt(1));
-                company.setName(result.getString(2));
-                company.setEmail(result.getString(3));
-                company.setPassword(result.getString(4));
+                int id = result.getInt(1);
+                String name = result.getString(2);
+                String email = result.getString(3);
+                String password = result.getString(4);
+                company = new Company(id,name,email,password);
             }
         } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());

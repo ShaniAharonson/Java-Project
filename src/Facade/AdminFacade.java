@@ -10,12 +10,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AdminFacade extends ClientFacade implements IAdmin {
+    String adminEmail = "admin@admin.com";
+    String adminPass = "admin";
 
+    /**
+     * login function by administer
+     *
+     * @param email
+     * @param password
+     * @return - true for success and false if not
+     */
     public boolean login(String email, String password) {
-        if (email.equals("admin@admin.com") && password.equals("admin")) {
+        if (email.equals(adminEmail) && password.equals(adminPass)) {
             System.out.println("Login successfully");
             return true;
-        } else if (email == null || password == null) {
+        } else if (adminEmail == null || adminPass == null) {
             System.out.println("are you an admin?");
             return false;
         } else {
@@ -24,6 +33,13 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         }
     }
 
+    /**
+     * adding company function while company doesn't exist yet
+     *
+     * @param company
+     * @throws sqlExceptions
+     * @throws SQLException
+     */
     public void addCompany(Company company) throws sqlExceptions, SQLException {
 
         if (companiesDBDAO.getAllCompanies().contains(company.getName()))
@@ -35,10 +51,25 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     }
 
+    /**
+     * updating company
+     *
+     * @param company
+     * @throws sqlExceptions
+     */
     public void updateCompany(Company company) throws sqlExceptions {
         companiesDBDAO.updateCompany(company);
     }
 
+    /**
+     * delete company
+     * first-getting all coupon by company id
+     * second-deleting those coupon
+     * third - deleting comapany
+     *
+     * @param companyID
+     * @throws SQLException
+     */
     public void deleteCompany(int companyID) throws SQLException {
         // Company company  = new Company();
         List<Coupon> companyCoupons = couponsDBDAO.getAllCompanyCoupons(companyID);
@@ -50,21 +81,38 @@ public class AdminFacade extends ClientFacade implements IAdmin {
     }
 // Customers coupons will delete because of cascading in foreign key
 
-
+    /**
+     * getting all companies from sql table
+     *
+     * @return - all companies
+     * @throws SQLException
+     */
     public List<Company> getAllCompanies() throws SQLException {
         return companiesDBDAO.getAllCompanies();
 
     }
 
-
+    /**
+     * getting one company by ID
+     *
+     * @param companyID
+     * @return - the specific company
+     * @throws sqlExceptions
+     */
     public Company getOneCompany(int companyID) throws sqlExceptions {
         return companiesDBDAO.getOneCompany(companyID);
     }
 
+    /**
+     * adding customer
+     * first checking if it already exists
+     * @param customer
+     * @throws sqlExceptions
+     */
 
     public void addCustomer(Customer customer) throws sqlExceptions {
         try {
-            if (customersDBDAO.getAllCustomers().contains(customer.getEmail())){
+            if (customersDBDAO.getAllCustomers().contains(customer.getEmail())) {
                 System.out.println("Customer already exists!");
             }
         } catch (SQLException e) {
@@ -73,10 +121,23 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         customersDBDAO.addCustomer(customer);
     }
 
+    /**
+     * updating customer
+     * @param customer
+     * @throws Exception
+     * @throws SQLException
+     */
     public void updateCustomer(Customer customer) throws Exception, SQLException {
         customersDBDAO.updateCustomer(customer);
     }
 
+    /**
+     * deleting customer
+     * first-deleting his coupons
+     * second-deleting the customer
+     * @param customerID
+     * @throws SQLException
+     */
     public void deleteCustomer(int customerID) throws SQLException {
         List<Coupon> customerCoupons = couponsDBDAO.getAllCustomerCoupons(customerID);
         for (Coupon c : customerCoupons) {
@@ -85,10 +146,21 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         customersDBDAO.deleteCustomer(customerID);
     }
 
+    /**
+     * getting all customers from sql table
+     * @return
+     * @throws SQLException
+     */
     public List<Customer> getAllCustomers() throws SQLException {
         return customersDBDAO.getAllCustomers();
     }
 
+    /**
+     * getting one customer by his ID
+     * @param customerID
+     * @return
+     * @throws sqlExceptions
+     */
     public Customer getOneCustomer(int customerID) throws sqlExceptions {
         return customersDBDAO.getOneCustomer(customerID);
     }

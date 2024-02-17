@@ -4,7 +4,8 @@ import Facade.*;
 
 public class LoginManager {
     private static LoginManager instance = null;
-
+// singleTon class
+    // to get one instance of login each time
     private LoginManager(){
         System.out.printf("%s instance was invoked\n", this.getClass().getSimpleName());
     }
@@ -21,6 +22,13 @@ public class LoginManager {
         // return new Login manager
     }
 
+    /**
+     * login by client type
+     * @param email
+     * @param password
+     * @param type
+     * @return - the facade login
+     */
     public ClientFacade login(String email, String password, ClientType type) {
         return switch (type) {
             case ADMINISTRATOR -> new AdminFacade();

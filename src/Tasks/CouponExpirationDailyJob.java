@@ -10,12 +10,12 @@ public class CouponExpirationDailyJob implements Runnable {
     @Getter
     private boolean quit = false;
 
-
+// constructor
     public CouponExpirationDailyJob(CouponsDBDAO couponsDBDAO, boolean quit) {
         this.couponsDBDAO = couponsDBDAO;
         this.quit = quit;
     }
-
+// implements runnable
     @Override
     public void run() {
 

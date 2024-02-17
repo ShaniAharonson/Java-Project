@@ -16,9 +16,9 @@ public class SQLCustomerFacade {
             "ON coupons.id = customers_vs_coupons.coupon_id";
 
     public static final String getCouponByPrice = " " +
-            "SELECT coupons.price" +
-            "FROM javaproject.customers_vs_coupon join javaproject.coupons " +
-            "ON coupons.id = customers_vs_coupons.coupon_id";
+            "SELECT coupons.price FROM javaproject.customers_vs_coupon join javaproject.coupons " +
+            "ON coupons.id = customers_vs_coupons.coupon_id " +
+            "where price < max(price)";
     public static final String getCustomerDetails = " " +
-            "SELECT * FROM javaproject.customers where id = ?";
+            "SELECT * FROM javaproject.customers where id = ? ";
 }

@@ -11,7 +11,7 @@ import JavaBeans.Coupon;
 import JavaBeans.Customer;
 import cls.LoginManager;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Test {
     public static void testAll() throws Exception {
@@ -20,23 +20,25 @@ public class Test {
 
         //****************************** Admin Testing ********************************************//
         AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
-                "Shani.bolandi@gmail.com", "12345678", ClientType.ADMINISTRATOR);
+                "admin@admin.com", "admin", ClientType.ADMINISTRATOR);
 
-        adminFacade.addCompany(new Company(1, "Amazon", "amazom@amazon", "1234"));
+        adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         System.out.println("add company amazon");
 
-        adminFacade.addCompany(new Company(2, "Apple", "Apple@apple.com", "5678"));
+        adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
         System.out.println("add company apple");
 
-        adminFacade.addCompany(new Company(3, "cisco", "cisco@cisco.com",
+        adminFacade.addCompany(new Company("cisco", "cisco@cisco.com",
                 "9101112"));
         System.out.println("add company cisco");
 
-        adminFacade.addCompany(new Company(4, "Wix", "Wix@wix.com", "505050"));
+        adminFacade.addCompany(new Company("Wix", "Wix@wix.com", "505050"));
         System.out.println("add company Wix");
 
-        //get company by id :o)
-        Company updatedCompany = adminFacade.getOneCompany(1);
+        // get company by id :o
+
+        Company updatedCompany = adminFacade.getOneCompany(13);
+
         updatedCompany.setName("AMAZON LLC.");
         adminFacade.updateCompany(updatedCompany);
 
@@ -81,19 +83,19 @@ public class Test {
                 "Del computer", new Date(2020 - 01 - 01), new Date(2025 - 01 - 01), 50,
                 2000.0,
                 "  _" +
-                "     |-|  __" +
-                "     |=| [Ll]" +
-                "     ^ ====`o"));
-        Coupon couponToUpdate = new Coupon(3,4,Category.Food,"Cherry",
-                "beautiful cherries",new Date(2021-01-13),new Date(2025-01-14),300,50.5,
-                " __.--~~.,-.__\n" +
-                "   `~-._.-(`-.__`-.\n" +
-                "           \\    `~~`\n" +
-                "      .--./ \\\n" +
-                "     /#   \\  \\.--.\n" +
-                "     \\    /  /#   \\\n" +
-                " jgs  '--'   \\    /\n" +
-                "              '--'");
+                        "     |-|  __" +
+                        "     |=| [Ll]" +
+                        "     ^ ====`o"));
+        Coupon couponToUpdate = new Coupon(3, 4, Category.Food, "Cherry",
+                "beautiful cherries", new Date(2021 - 01 - 13), new Date(2025 - 01 - 14), 300, 50.5,
+                " __.--~~.,-.__" +
+                        "   `~-._.-(`-.__`-." +
+                        "               `~~`" +
+                        "      .--./ " +
+                        "     /#     .--." +
+                        "         /  /#   " +
+                        " jgs  '--'       /" +
+                        "              '--'");
         companyFacade.updateCoupon(couponToUpdate);
         companyFacade.deleteExistsCoupon(couponToUpdate);
         companyFacade.getAllCompanyCoupon(4)

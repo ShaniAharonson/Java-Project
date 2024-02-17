@@ -137,7 +137,7 @@ public class CouponsDBDAO implements CouponsDao {
     @Override
     public List<Coupon> getAllCompanyCouponFromSpecificCategory(int companyID, Category category) throws sqlExceptions {
         List<Coupon> couponsFromCategory = new ArrayList<>();
-        ResultSet coupons = DButils.runQueryFroResult(SQLcommands.getGetAllCompaniesCouponFromSpecificCategory);
+        ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getGetAllCompaniesCouponFromSpecificCategory);
         try {
             while (coupons.next()) {
                 companyID = coupons.getInt(2);
@@ -153,7 +153,7 @@ public class CouponsDBDAO implements CouponsDao {
     @Override
     public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException {
         List<Coupon> couponsByPrice = new ArrayList<>();
-        ResultSet coupons = DButils.runQueryFroResult(SQLcommands.getCouponsByPrice);
+        ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getCouponsByPrice);
         while (coupons.next()) {
             CompanyID = coupons.getInt(2);
             price = coupons.getDouble(9);
@@ -196,7 +196,7 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public void getAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException {
+    public void deletingAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException {
         ArrayList<Coupon> couponArrayList= new ArrayList<>();
         DButils.runQuery(SQLTasks.getCouponsByEndDate);
 

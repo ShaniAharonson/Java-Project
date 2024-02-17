@@ -2,6 +2,8 @@ package cls;
 
 public class Init {
     public static void main(String[] args) {
+        // calling to the functions
+
         //createCompanyTable();
         //createCustomersTable();
         //createCategoriesTable();
@@ -9,27 +11,28 @@ public class Init {
         //createCustomersVsCoupons();
 
     }
+// functions to initialize tables
     private static void createCompanyTable() {
- DButils.runQuery(SQLcommands.CREATE_COMPANY_TABLE);
+ DButils.runQuery(SQLTableCommands.CREATE_COMPANY_TABLE);
     }
 
     private static void createCustomersTable() {
-        DButils.runQuery(SQLcommands.CREATE_CUSTOMERS_TABLE);
+        DButils.runQuery(SQLTableCommands.CREATE_CUSTOMERS_TABLE);
     }
 
     private static void createCategoriesTable() {
-        DButils.runQuery(SQLcommands.CREATE_CATEGORIES_TABLE);
+        DButils.runQuery(SQLTableCommands.CREATE_CATEGORIES_TABLE);
     }
 
     private static void createCouponsTable() {
-        DButils.runQuery(SQLcommands.CREATE_COUPONS_TABLE);
+        DButils.runQuery(SQLTableCommands.CREATE_COUPONS_TABLE);
     }
 
     private static void createCustomersVsCoupons() {
-        DButils.runQuery(SQLcommands.CREATE_CUSTOMERS_VS_COUPONS_TABLE);
+        DButils.runQuery(SQLTableCommands.CREATE_CUSTOMERS_VS_COUPONS_TABLE);
     }
 
-/// dont forget to change sql command for tables to another class!!!
+
     }
 
 

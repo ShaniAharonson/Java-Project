@@ -21,13 +21,20 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         this.companyID = companyID;
     }
 
+    /**
+     * login function for company
+     * @param email
+     * @param password
+     * @return - true or false
+     * @throws SQLException
+     */
        @Override
     public boolean login(String email, String password) throws SQLException {
 
         ResultSet companyID = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin);
         while (companyID.next()) {
-            companyID.getInt(1);
             Company company = new Company();
+            companyID.getInt(1);
             company.setPassword(company.getPassword());
             company.setEmail(company.getEmail());
           }
@@ -77,6 +84,13 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         }
     }
 
+    /**
+     *
+     * @param companyID
+     * @param price
+     * @return
+     * @throws SQLException - if we got an sql exception for any reason
+     */
     public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException {
         try {
             return couponsDBDAO.getCouponByPrice(companyID, price);
