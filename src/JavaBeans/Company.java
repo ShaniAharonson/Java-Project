@@ -9,9 +9,9 @@ public class Company {
     private String password;
     ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
-    public Company(){
-        this(0,null,null,null);
-    }
+ //   public Company(){
+ //       this(0,null,null,null);
+ //  }
 
     public Company(Integer id, String name, String email, String password) {
         this.id = id;
@@ -26,6 +26,11 @@ public class Company {
         this.email = email;
         this.password = password;
 
+    }
+
+    public Company(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public Integer getId() {

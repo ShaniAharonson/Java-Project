@@ -28,6 +28,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
     /**
      * login customer
+     *
      * @param email
      * @param password
      * @return - new customer and message of customer ID
@@ -38,7 +39,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
         ResultSet customerID = DButils.runQueryFroResult(SQLCustomerFacade.CustomerLogin);
         while (customerID.next()) {
             customerID.getInt(1);
-            Customer customer = new Customer();
+            Customer customer = new Customer(email, password);
             customer.setPassword(customer.getPassword());
             customer.setEmail(customer.getEmail());
         }
@@ -51,10 +52,11 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * first  getting coupon by ID
      * second getting all coupons
      * third checking coupon details
+     *
      * @param coupon
      */
     public void PurchaseCoupon(Coupon coupon) {
-        coupon = new Coupon();
+
         try {
             // getting one coupon by ID
             coupon = couponsDBDAO.getOneCoupon(coupon.getId());
@@ -87,6 +89,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
     /**
      * getting all customer's coupons
+     *
      * @param customerID
      * @return - the relevant coupons
      */
@@ -102,6 +105,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
     /**
      * getting all customer coupons by specific category
+     *
      * @param customerID
      * @param category
      * @return - relevant coupons from the specific category
@@ -113,6 +117,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
     /**
      * getting coupons up to max price
+     *
      * @param customerID
      * @param price
      * @return the relevant coupons
@@ -123,14 +128,23 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     }
 
     /**
-     * customer detalis by customerID
-     * @param firstName
-     * @param lastName
+     * getting customer details
      * @param email
+     * @param password
+     * @return - details by customer id
+     * @throws sqlExceptions
      */
-    public void customerDetails(String firstName, String lastName, String email) {
-        customersDBDAO.customerDetails(firstName, lastName, email);
+    public Customer customerDetails(String email, String password) throws sqlExceptions {
+        try {
+            if (login(email, password)) {
+                return customersDBDAO.getOneCustomer(getCustomerID());
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return null;
     }
-
-
 }

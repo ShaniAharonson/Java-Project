@@ -44,7 +44,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public void addCompany(Company company) {
         Map<Integer, Object> params = new HashMap<>();
-        //id, name, email, password
+        //name, email, password
         params.put(1, company.getName());
         params.put(2, company.getEmail());
         params.put(3, company.getPassword());
@@ -55,11 +55,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public void updateCompany(Company company) {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1, company.getName());
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(4,company.getId());
         params.put(2, company.getEmail());
         params.put(3, company.getPassword());
-        DButils.runQuery(SQLcommands.updateCompany,params);
+        params.put(1, company.getName());
+        DButils.runQuery(SQLcommands.updateCompany, params);
         System.out.println("Company updated!");
 
     }
@@ -67,7 +68,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public void deleteCompany(int id) {
         Map<Integer, Object> params = new HashMap<>();
-        params.remove(1, id);
+        params.put(1, id);
         DButils.runQuery(SQLcommands.deleteCompany, params);
     }
 
@@ -87,12 +88,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public Company getOneCompany(int CompanyID) throws sqlExceptions {
-        Company company = new Company();
-       Map<Integer,Object> params = new HashMap<>();
 
-        params.put(1, company.getName());
+        Map<Integer, Object> params = new HashMap<>();
 
-        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCompany,params);
+        params.put(1, CompanyID);
+
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCompany, params);
 
         try {
             while (result.next()) {
@@ -100,24 +101,24 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 String name = result.getString(2);
                 String email = result.getString(3);
                 String password = result.getString(4);
-                company = new Company(id,name,email,password);
+                return new Company(id, name, email, password);
             }
         } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());
         }
 
-        return company;
+       throw new sqlExceptions();
     }
 
     @Override
     public void companyDetails(String name, String email) {
         ResultSet result = DButils.runQueryFroResult(SQLcommands.getCompanyDetails);
         try {
-           name = result.getString(2);
-           email = result.getString(3);
+            name = result.getString(2);
+            email = result.getString(3);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Company name: " + name +" \n email: " + email);
+        System.out.println("Company name: " + name + " \n email: " + email);
     }
 }

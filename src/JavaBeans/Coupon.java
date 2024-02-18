@@ -14,9 +14,19 @@ public class Coupon {
     private Double price;
     private String image;
 
-    public Coupon(){
-        this(0,0,null, null,null,
-                null,null,0,0.0,null);
+
+// without ID
+    public Coupon(Integer companyID, Category category, String title, String description,
+                  java.sql.Date startDate, java.sql.Date endDate, int amount, Double price, String image) {
+        this.companyID = companyID;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
     }
 
     public Coupon(Integer id, Integer companyID, Category category, String title,
@@ -126,6 +136,6 @@ public class Coupon {
                 ", amount=" + amount +
                 ", price=" + price +
                 ", image='" + image + '\'' +
-                '}';
+                '\n';
     }
 }

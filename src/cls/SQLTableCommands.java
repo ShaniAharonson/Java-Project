@@ -51,4 +51,11 @@ public class SQLTableCommands {
             "  `coupon_id` INT NOT NULL," +
             "  PRIMARY KEY (`customers_id`, `coupon_id`));";
 
+    public static final String TESTTABLE = "CREATE TABLE IF NOT EXISTS `javaproject`.`new_table` (" +
+            "  `id` INT NOT NULL AUTO_INCREMENT," +
+            "  `name` VARCHAR(45) NOT NULL," +
+            "  `email` VARCHAR(45) NOT NULL," +
+            "  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE," +
+            "  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE," +
+            "  PRIMARY KEY (`id`))";
 }

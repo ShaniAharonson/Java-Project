@@ -10,10 +10,6 @@ public class Customer {
     private String password;
     ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
-    public Customer(){
-        this(0,null,null,null,null);
-    }
-
     public Customer(Integer id, String firstName, String lastName,
                     String email, String password) {
         this.id = id;
@@ -21,6 +17,20 @@ public class Customer {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public Customer(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Customer(Integer id, String firstName, String lastName, String email, String password, ArrayList<Coupon> coupons) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.coupons = coupons;
     }
 
     public Integer getId() {
@@ -80,6 +90,6 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", coupons=" + coupons +
-                '}';
+                '}'+"\n";
     }
 }

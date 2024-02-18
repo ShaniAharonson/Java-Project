@@ -2,6 +2,7 @@ package DBDAO;
 
 import DAO.CustomersDAO;
 import Exceptions.sqlExceptions;
+import JavaBeans.Coupon;
 import JavaBeans.Customer;
 import cls.ConnectionPool;
 import cls.DButils;
@@ -39,25 +40,29 @@ public class CustomersDBDAO implements CustomersDAO {
     public void addCustomer(Customer customer) {
         Map<Integer, Object> params = new HashMap<>();
         //id, firstName, lastName, email, password
-        params.put(1, customer.getId());
-        params.put(2, customer.getFirstName());
-        params.put(3, customer.getLastName());
-        params.put(4, customer.getEmail());
-        params.put(5, customer.getPassword());
+        params.put(1, customer.getFirstName());
+        params.put(2, customer.getLastName());
+        params.put(3, customer.getEmail());
+        params.put(4, customer.getPassword());
 
         DButils.runQuery(SQLcommands.addCustomer, params);
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-        ResultSet update = DButils.runQueryFroResult(SQLcommands.updateCustomers);
-        System.out.println(update);
+        Map<Integer,Object> params = new HashMap<>();
+        params.put(1,customer.getFirstName());
+        params.put(2,customer.getLastName());
+        params.put(3,customer.getEmail());
+        params.put(4,customer.getPassword());
+        params.put(5,customer.getId());
+        DButils.runQuery(SQLcommands.updateCustomers,params);
     }
 
     @Override
     public void deleteCustomer(int id) {
         Map<Integer, Object> params = new HashMap<>();
-        params.remove(1, id);
+        params.put(1, id);
         DButils.runQuery(SQLcommands.deleteCustomer, params);
     }
 
@@ -72,28 +77,32 @@ public class CustomersDBDAO implements CustomersDAO {
             String Last_Name = resultSet.getString(3);
             String email = resultSet.getString(4);
             String password = resultSet.getString(5);
-            myList.add(new Customer(id, First_Name, Last_Name, email, password));
+            CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
+            List<Coupon> coupons = couponsDBDAO.getAllCustomerCoupons(id);
+            myList.add(new Customer(id, First_Name, Last_Name, email, password,(ArrayList<Coupon>) coupons));
         }
         return myList;
     }
 
     @Override
     public Customer getOneCustomer(int CustomerID) throws sqlExceptions {
-        Customer customer = new Customer();
-        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCustomer);
+        Map<Integer,Object> params = new HashMap<>();
+        params.put(1,CustomerID);
+
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCustomer,params);
         try {
             while (result.next()) {
-                customer.setId(result.getInt(1));
-                customer.setFirstName(result.getString(2));
-                customer.setLastName(result.getString(3));
-                customer.setEmail(result.getString(4));
-                customer.setPassword(result.getString(5));
-
+                Integer ID = result.getInt(1);
+                String firstName = result.getString(2);
+                String lastName = result.getString(3);
+                String email = result.getString(4);
+                String password = result.getString(5);
+                return new Customer(ID, firstName, lastName, email, password);
             }
         } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());
         }
-        return customer;
+        throw new sqlExceptions();
     }
 
     @Override

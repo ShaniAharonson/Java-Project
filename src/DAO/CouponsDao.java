@@ -46,7 +46,7 @@ public interface CouponsDao {
      * @return
      * @throws sqlExceptions
      */
-    public Coupon getOneCoupon(int CouponID) throws sqlExceptions;
+    public Coupon getOneCoupon(int CouponID) throws sqlExceptions, SQLException;
 
     /**
      * adding coupon to purchase by customers

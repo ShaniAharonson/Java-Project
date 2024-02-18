@@ -14,49 +14,43 @@ import java.util.List;
 
 public class CompanyFacade extends ClientFacade implements ICompany {
     private int companyID;
+
     public int getCompanyID() {
         return companyID;
     }
+
     public void setCompanyID(int companyID) {
         this.companyID = companyID;
     }
 
     /**
      * login function for company
+     *
      * @param email
      * @param password
      * @return - true or false
      * @throws SQLException
      */
-       @Override
+    @Override
     public boolean login(String email, String password) throws SQLException {
 
         ResultSet companyID = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin);
         while (companyID.next()) {
-            Company company = new Company();
+            Company company = new Company(email, password);
             companyID.getInt(1);
             company.setPassword(company.getPassword());
             company.setEmail(company.getEmail());
-          }
+        }
         System.out.println("Company ID is: " + companyID);
         // getting company ID if login was successful
         return true;
     }
 
 
-
     public void addCoupon(Coupon coupon) throws SQLException {
-        if (companiesDBDAO.getAllCompanies().contains(coupon.getCompanyID())) {
-
-            try {
-                throw new Exception("Coupon already exists!");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            couponsDBDAO.addCoupon(coupon);
-        }
+        couponsDBDAO.addCoupon(coupon);
     }
+
 
     public void updateCoupon(Coupon coupon) throws sqlExceptions {
         couponsDBDAO.updateCoupon(coupon);
@@ -85,7 +79,6 @@ public class CompanyFacade extends ClientFacade implements ICompany {
     }
 
     /**
-     *
      * @param companyID
      * @param price
      * @return
@@ -102,8 +95,26 @@ public class CompanyFacade extends ClientFacade implements ICompany {
             }
         }
     }
-    public void companyDetails(String name, String email) {
-        companiesDBDAO.companyDetails(name,email);
-    }
 
+    /**
+     * getting company details
+     * @param email
+     * @param password
+     * @return
+     */
+    public Company companyDetails(String email, String password) {
+        try {
+            if (login(email, password)) {
+                try {
+                    return companiesDBDAO.getOneCompany(getCompanyID());
+                } catch (sqlExceptions e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 }

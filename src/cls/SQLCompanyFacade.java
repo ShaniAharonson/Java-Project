@@ -14,5 +14,5 @@ public class SQLCompanyFacade {
     public static final String getGetAllCompaniesCouponFromSpecificCategory =" "+
             "SELECT * FROM javaproject.coupons " +
             "where company_id = ? AND category_id = ?";
-    public static final String getCouponsByPrice = "SELECT MAX(price) FROM javaproject.coupons where company_id = ?";
+    public static final String getCouponsByPrice = "SELECT * FROM javaproject.coupons where company_id = ? AND price <= ?";
 }

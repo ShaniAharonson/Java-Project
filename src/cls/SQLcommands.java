@@ -2,7 +2,37 @@ package cls;
 
 public class SQLcommands {
     // create schema
-    public static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS " +DBmanager.SQL_DB;
+    public static final String CREATE_SCHEMA = "CREATE SCHEMA `javaproject` ";
+    public static final String FK_COUPONS_AND_COMPANIES_TO_CATEGORIES1 =
+            "ALTER TABLE `javaproject`.`coupons` " +
+                    "ADD CONSTRAINT `Categories_FK`" +
+                    "  FOREIGN KEY (`category_id`)" +
+                    "  REFERENCES `javaproject`.`categories` (`id`)" +
+                    "  ON DELETE CASCADE" +
+                    "  ON UPDATE CASCADE," ;
+
+    public static final String FK_COUPONS_AND_COMPANIES_TO_CATEGORIES2 = " " +
+            "ADD CONSTRAINT `Companies_FK`" +
+            "  FOREIGN KEY (`company_id`)" +
+            "  REFERENCES `javaproject`.`companies` (`id`)" +
+            "  ON DELETE CASCADE" +
+            "  ON UPDATE CASCADE;";
+    public static final String FK_OF_CUSTOMERVSCOUPONS1 =
+            "ALTER TABLE `javaproject`.`customers_vs_coupons` " +
+                    "ADD INDEX `Coupons_FK_idx` (`coupon_id` ASC) VISIBLE;";
+    public static final String FK_OF_CUSTOMERVSCOUPONS2 = " "+
+                            "ALTER TABLE `javaproject`.`customers_vs_coupons` "+
+                            "ADD CONSTRAINT `Customers_FK`"+
+                            "  FOREIGN KEY (`customers_id`)"+
+                            "  REFERENCES `javaproject`.`customers` (`id`)"+
+                            "  ON DELETE CASCADE"+
+                            "  ON UPDATE CASCADE,"+
+                            "ADD CONSTRAINT `Coupons_FK`"+
+                            "  FOREIGN KEY (`coupon_id`)"+
+                            "  REFERENCES `javaproject`.`coupons` (`id`)"+
+                            "  ON DELETE CASCADE"+
+                            "  ON UPDATE CASCADE;";
+
 
     // ************************************ Company SQL *************************************
     public static String isCompanyExists = "" +
@@ -17,14 +47,14 @@ public class SQLcommands {
 
     public static String updateCompany =
             "UPDATE javaproject.companies " +
-            "SET name = ?, email = ?, password = ? " +
-            "where id =?";
+                    "SET name = ?, email = ?, password = ? " +
+                    "where id =?";
 
     public static String deleteCompany = "DELETE FROM javaproject.companies where id = ? ";
 
     public static String getAllCompanies = "SELECT * FROM javaproject.companies";
 
-    public static String getOneCompany = "SELECT * FROM javaproject.companies where id = ?";
+    public static String getOneCompany = "SELECT * FROM javaproject.companies where id = ?;";
     public static final String getCompanyDetails = "SELECT companies FROM javaproject.companies where id = ?";
 
     // ************************************ Customers SQL *************************************
@@ -38,9 +68,8 @@ public class SQLcommands {
             "VALUES (?, ?, ?, ?)";
 
     public static String updateCustomers =
-            "update javaproject.customers" +
-            "SET First_Name = ?, Last_Name = ?, email = ?, password = ?" +
-            "WHERE id = ?";
+            "UPDATE `javaproject`.`customers` SET `First_Name` = ?, `Last_Name` = ?," +
+                    " `email` = ?, `password` = ? WHERE (`id` = ?);";
 
     public static String deleteCustomer = "delete From javaproject.customers WHERE id = ?";
 
@@ -51,8 +80,8 @@ public class SQLcommands {
     // ************************************ Coupons SQL *************************************
 
     public static String addCoupon = "INSERT INTO `javaproject`.`coupons`" +
-            " (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`)" +
-            " VALUES (?, ?, ?, '?, ?, ?, ?, ?)";
+            " (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`, `image`)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static String updateCoupon = "update javaproject.customers " +
             "SET company_id= ?, category_id= ?, title= ?, description= ?," +
@@ -71,7 +100,6 @@ public class SQLcommands {
             "where customers_id = ? and coupon_id = ?";
 
     public static final String getAllCompanyCoupon = "SELECT * FROM javaproject.coupons where company_id = ?";
-
 
 
 }

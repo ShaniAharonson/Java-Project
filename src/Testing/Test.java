@@ -1,14 +1,9 @@
 package Testing;
 
-import DBDAO.CouponsDBDAO;
-import Facade.AdminFacade;
 import Facade.ClientType;
 import Facade.CompanyFacade;
-import Facade.CustomerFacade;
 import JavaBeans.Category;
-import JavaBeans.Company;
 import JavaBeans.Coupon;
-import JavaBeans.Customer;
 import cls.LoginManager;
 
 import java.sql.Date;
@@ -19,10 +14,10 @@ public class Test {
         jobThread.start();
 
         //****************************** Admin Testing ********************************************//
-        AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
-                "admin@admin.com", "admin", ClientType.ADMINISTRATOR);
+       /* AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
+                "admin@admin.com", "admin", ClientType.ADMINISTRATOR);*/
 
-        adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
+        /*adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         System.out.println("add company amazon");
 
         adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
@@ -33,44 +28,48 @@ public class Test {
         System.out.println("add company cisco");
 
         adminFacade.addCompany(new Company("Wix", "Wix@wix.com", "505050"));
-        System.out.println("add company Wix");
+        System.out.println("add company Wix");*/
 
         // get company by id :o
 
-        Company updatedCompany = adminFacade.getOneCompany(13);
+     /*   Company updatedCompany = adminFacade.getOneCompany(4);
 
-        updatedCompany.setName("AMAZON LLC.");
+        updatedCompany.setPassword("444444");
         adminFacade.updateCompany(updatedCompany);
+*/
+        //adminFacade.deleteCompany(1);
 
-        adminFacade.deleteCompany(2);
+      /*  adminFacade.getAllCompanies();
 
-        adminFacade.getAllCompanies();
-
-        adminFacade.getOneCompany(1);
-
-        adminFacade.addCustomer(new Customer(1, "Shani", "Aharonson",
+        adminFacade.getOneCompany(2);
+*/
+        /*adminFacade.addCustomer(new Customer("Shani", "Aharonson",
                 "shani@shani.com", "303030"));
         System.out.println("add customer shani");
-        adminFacade.addCustomer(new Customer(2, "Ofir", "Aharonson",
+        adminFacade.addCustomer(new Customer("Ofir", "Aharonson",
                 "ofir@ofir.com", "404040"));
         System.out.println("add customer ofir");
-        adminFacade.addCustomer(new Customer(3, "Ron", "Bolandi",
+        adminFacade.addCustomer(new Customer("Ron", "Bolandi",
                 "ron-bol@gmail.com", "131313"));
-        System.out.println("add customer ron");
+        System.out.println("add customer ron");*/
 
-        Customer UpdatedCustomer = adminFacade.getOneCustomer(1);
+        /*Customer UpdatedCustomer = adminFacade.getOneCustomer(1);
         UpdatedCustomer.setFirstName("OFIR");
         adminFacade.updateCustomer(UpdatedCustomer);
-        System.out.println("update completed");
-        adminFacade.deleteCustomer(1);
-        adminFacade.getAllCustomers();
-        adminFacade.getOneCustomer(2);
+        System.out.println("update completed");*/
+        //adminFacade.deleteCustomer(1);
+      /*  List<Customer> customers = adminFacade.getAllCustomers();
+        System.out.println(customers);
+        Customer getOne = adminFacade.getOneCustomer(2);
+        System.out.println(getOne);*/
+
 
 
 // *********************************** Company Testing ************************************** //
         CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
-                "amazom@amazon", "1234", ClientType.COMPANY);
-        companyFacade.addCoupon(new Coupon(1, 3, Category.Food, "pai",
+                "Wix@wix.com", "444444", ClientType.COMPANY);
+
+        companyFacade.addCoupon(new Coupon(3, Category.Food, "pai",
                 "pai with apples", new Date(2024 - 02 - 13), new Date(2024 - 05 - 20), 30,
                 20.5, "        (" +
                 "                       (   )  )" +
@@ -79,15 +78,15 @@ public class Test {
                 "                     .:::::::::." +
                 "                     ~_______/~ "));
 
-        companyFacade.addCoupon(new Coupon(2, 4, Category.Electricity, "Computer",
+        companyFacade.addCoupon(new Coupon(4, Category.Electricity, "Computer",
                 "Del computer", new Date(2020 - 01 - 01), new Date(2025 - 01 - 01), 50,
                 2000.0,
                 "  _" +
                         "     |-|  __" +
                         "     |=| [Ll]" +
                         "     ^ ====`o"));
-        Coupon couponToUpdate = new Coupon(3, 4, Category.Food, "Cherry",
-                "beautiful cherries", new Date(2021 - 01 - 13), new Date(2025 - 01 - 14), 300, 50.5,
+        Coupon couponToUpdate = new Coupon(4, Category.Food, "Cherry",
+                "beautiful cherries", new Date(2021 - 1 - 13), new Date(2025 - 1 - 14), 300, 50.5,
                 " __.--~~.,-.__" +
                         "   `~-._.-(`-.__`-." +
                         "               `~~`" +
@@ -107,7 +106,7 @@ public class Test {
 
 
         // *************************** Customer Testing ************************************//
-        CustomerFacade customerFacade = (CustomerFacade) LoginManager.getInstance().login(
+ /*       CustomerFacade customerFacade = (CustomerFacade) LoginManager.getInstance().login(
                 "oshra.bolandi@gmail.com", "707070", ClientType.CUSTOMER);
 
         CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
@@ -116,7 +115,8 @@ public class Test {
         customerFacade.getCustomerCoupons(1);
         customerFacade.get_All_Customer_Coupons_From_Specific_Category(1, Category.Food);
         customerFacade.getCouponsByPrice(1, 20.5);
-        customerFacade.customerDetails("Shani", "Aharonson", "Shani@shani.com");
+        customerFacade.customerDetails("Shani", "Aharonson", "Shani@shani.com");*/
     }
 
 }
+

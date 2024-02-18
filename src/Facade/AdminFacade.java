@@ -42,12 +42,13 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      */
     public void addCompany(Company company) throws sqlExceptions, SQLException {
 
-        if (companiesDBDAO.getAllCompanies().contains(company.getName()))
+        if (companiesDBDAO.getAllCompanies().contains(company.getName())) {
             if (companiesDBDAO.getAllCompanies().contains(company.getEmail())) {
                 System.out.println("Company already exists!");
-            } else {
-                companiesDBDAO.addCompany(company);
             }
+        } else {
+            companiesDBDAO.addCompany(company);
+        }
 
     }
 
@@ -106,6 +107,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
     /**
      * adding customer
      * first checking if it already exists
+     *
      * @param customer
      * @throws sqlExceptions
      */
@@ -123,6 +125,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * updating customer
+     *
      * @param customer
      * @throws Exception
      * @throws SQLException
@@ -135,6 +138,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * deleting customer
      * first-deleting his coupons
      * second-deleting the customer
+     *
      * @param customerID
      * @throws SQLException
      */
@@ -148,6 +152,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * getting all customers from sql table
+     *
      * @return
      * @throws SQLException
      */
@@ -157,6 +162,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * getting one customer by his ID
+     *
      * @param customerID
      * @return
      * @throws sqlExceptions
