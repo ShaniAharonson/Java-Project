@@ -15,6 +15,7 @@ public class Init {
         fkOfCustomerVSCoupons2();*/
 
 
+
     }
 
     // functions to initialize tables
@@ -41,18 +42,23 @@ public class Init {
     private static void createCustomersVsCoupons() {
         DButils.runQuery(SQLTableCommands.CREATE_CUSTOMERS_VS_COUPONS_TABLE);
     }
-    private static void foreignKeysToComapniesAndCategories1(){
+
+    private static void foreignKeysToComapniesAndCategories1() {
         DButils.runQuery(SQLcommands.FK_COUPONS_AND_COMPANIES_TO_CATEGORIES1);
     }
-    private static void foreignKeysToComapniesAndCategories2(){
+
+    private static void foreignKeysToComapniesAndCategories2() {
         DButils.runQuery(SQLcommands.FK_COUPONS_AND_COMPANIES_TO_CATEGORIES2);
     }
-    private static void fkOfCustomerVSCoupons1 (){
+
+    private static void fkOfCustomerVSCoupons1() {
         DButils.runQuery(SQLcommands.FK_OF_CUSTOMERVSCOUPONS1);
     }
-    private static void fkOfCustomerVSCoupons2 (){
+
+    private static void fkOfCustomerVSCoupons2() {
         DButils.runQuery(SQLcommands.FK_OF_CUSTOMERVSCOUPONS2);
     }
-}
 
+
+}
 

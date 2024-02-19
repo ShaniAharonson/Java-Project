@@ -69,6 +69,7 @@ public class Test {
         CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                 "Wix@wix.com", "444444", ClientType.COMPANY);
 
+
         companyFacade.addCoupon(new Coupon(3, Category.Food, "pai",
                 "pai with apples", new Date(2024 - 02 - 13), new Date(2024 - 05 - 20), 30,
                 20.5, "        (" +
@@ -81,7 +82,7 @@ public class Test {
         companyFacade.addCoupon(new Coupon(4, Category.Electricity, "Computer",
                 "Del computer", new Date(2020 - 01 - 01), new Date(2025 - 01 - 01), 50,
                 2000.0,
-                "  _" +
+                  "  _" +
                         "     |-|  __" +
                         "     |=| [Ll]" +
                         "     ^ ====`o"));

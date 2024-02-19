@@ -292,7 +292,8 @@ public class CouponsDBDAO implements CouponsDao {
 
 
     }
-
+// don't forget to create function that adding Category name the sql table.
+    // like adding company
 }
 
 

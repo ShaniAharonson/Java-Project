@@ -9,7 +9,7 @@ public class SQLcommands {
                     "  FOREIGN KEY (`category_id`)" +
                     "  REFERENCES `javaproject`.`categories` (`id`)" +
                     "  ON DELETE CASCADE" +
-                    "  ON UPDATE CASCADE," ;
+                    "  ON UPDATE CASCADE,";
 
     public static final String FK_COUPONS_AND_COMPANIES_TO_CATEGORIES2 = " " +
             "ADD CONSTRAINT `Companies_FK`" +
@@ -20,18 +20,18 @@ public class SQLcommands {
     public static final String FK_OF_CUSTOMERVSCOUPONS1 =
             "ALTER TABLE `javaproject`.`customers_vs_coupons` " +
                     "ADD INDEX `Coupons_FK_idx` (`coupon_id` ASC) VISIBLE;";
-    public static final String FK_OF_CUSTOMERVSCOUPONS2 = " "+
-                            "ALTER TABLE `javaproject`.`customers_vs_coupons` "+
-                            "ADD CONSTRAINT `Customers_FK`"+
-                            "  FOREIGN KEY (`customers_id`)"+
-                            "  REFERENCES `javaproject`.`customers` (`id`)"+
-                            "  ON DELETE CASCADE"+
-                            "  ON UPDATE CASCADE,"+
-                            "ADD CONSTRAINT `Coupons_FK`"+
-                            "  FOREIGN KEY (`coupon_id`)"+
-                            "  REFERENCES `javaproject`.`coupons` (`id`)"+
-                            "  ON DELETE CASCADE"+
-                            "  ON UPDATE CASCADE;";
+    public static final String FK_OF_CUSTOMERVSCOUPONS2 = " " +
+            "ALTER TABLE `javaproject`.`customers_vs_coupons` " +
+            "ADD CONSTRAINT `Customers_FK`" +
+            "  FOREIGN KEY (`customers_id`)" +
+            "  REFERENCES `javaproject`.`customers` (`id`)" +
+            "  ON DELETE CASCADE" +
+            "  ON UPDATE CASCADE," +
+            "ADD CONSTRAINT `Coupons_FK`" +
+            "  FOREIGN KEY (`coupon_id`)" +
+            "  REFERENCES `javaproject`.`coupons` (`id`)" +
+            "  ON DELETE CASCADE" +
+            "  ON UPDATE CASCADE;";
 
 
     // ************************************ Company SQL *************************************
@@ -101,5 +101,5 @@ public class SQLcommands {
 
     public static final String getAllCompanyCoupon = "SELECT * FROM javaproject.coupons where company_id = ?";
 
-
+    public static final String addCategory = "INSERT INTO `javaproject`.`categories` (`name`) VALUES (?)";
 }

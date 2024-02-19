@@ -9,9 +9,6 @@ public class Company {
     private String password;
     ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
- //   public Company(){
- //       this(0,null,null,null);
- //  }
 
     public Company(Integer id, String name, String email, String password) {
         this.id = id;
