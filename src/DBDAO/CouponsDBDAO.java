@@ -75,7 +75,7 @@ public class CouponsDBDAO implements CouponsDao {
             //int amount, Double price, String image
             Integer id = resultSet.getInt(1);
             Integer companyID = resultSet.getInt(2);
-            Category category = (Category) resultSet.getObject(3);
+            int category = resultSet.getInt(3);
             String title = resultSet.getString(4);
             String description = resultSet.getString(5);
             Date startDate = resultSet.getDate(6);
@@ -95,12 +95,12 @@ public class CouponsDBDAO implements CouponsDao {
     public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CouponID);
-        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCoupon);
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCoupon,params);
         try {
             while (result.next()) {
                 int ID = result.getInt(1);
                 int companyID = result.getInt(2);
-                Category category = (Category) result.getObject(3);
+                int category =  result.getInt(3);
                 String title = result.getString(4);
                 String description = result.getString(5);
                 Date StartDate = result.getDate(6);
@@ -144,7 +144,7 @@ public class CouponsDBDAO implements CouponsDao {
         while (theCoupons.next()) {
             Integer id = theCoupons.getInt(1);
             companyID = theCoupons.getInt(2);
-            Category category = (Category) theCoupons.getObject(3);
+            int category = theCoupons.getInt(3);
             String title = theCoupons.getString(4);
             String description = theCoupons.getString(5);
             Date startDate = theCoupons.getDate(6);
@@ -170,7 +170,7 @@ public class CouponsDBDAO implements CouponsDao {
             while (coupons.next()) {
                 Integer id = coupons.getInt(1);
                 companyID = coupons.getInt(2);
-                category = (Category) coupons.getObject(3);
+                int categoryID = coupons.getInt(3);
                 String title = coupons.getString(4);
                 String description = coupons.getString(5);
                 Date startDate = coupons.getDate(6);
@@ -178,7 +178,7 @@ public class CouponsDBDAO implements CouponsDao {
                 Integer amount = coupons.getInt(8);
                 Double price = coupons.getDouble(9);
                 String image = coupons.getString(10);
-                couponsFromCategory.add(new Coupon(id, companyID, category, title, description,
+                couponsFromCategory.add(new Coupon(id, companyID, categoryID, title, description,
                         startDate, endDate, amount, price, image));
             }
         } catch (SQLException err) {
@@ -197,7 +197,7 @@ public class CouponsDBDAO implements CouponsDao {
         while (coupons.next()) {
             Integer id = coupons.getInt(1);
             CompanyID = coupons.getInt(2);
-            Category categoryID = (Category) coupons.getObject(3);
+            int categoryID = coupons.getInt(3);
             String title = coupons.getString(4);
             String description = coupons.getString(5);
             Date startDate = coupons.getDate(6);
@@ -216,20 +216,29 @@ public class CouponsDBDAO implements CouponsDao {
         List<Coupon> myList = new ArrayList<>();
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CustomerID);
-        ResultSet theCoupons = DButils.runQueryFroResult(SQLCustomerFacade.getAllCustomerCoupons, params);
-        while (theCoupons.next()) {
-            int id = theCoupons.getInt(1);
-            int companyId = theCoupons.getInt(2);
-            Category categoryID = (Category) theCoupons.getObject(3);
-            String title = theCoupons.getString(4);
-            String description = theCoupons.getString(5);
-            Date startDate = theCoupons.getDate(6);
-            Date endDate = theCoupons.getDate(7);
-            int amount = theCoupons.getInt(8);
-            Double price = theCoupons.getDouble(9);
-            String image = theCoupons.getString(10);
-            Coupon tempCoupon = (new Coupon(id, companyId, categoryID, title, description, startDate, endDate, amount, price, image));
-            myList.add(tempCoupon);
+        // Result set - contains a list of coupon IDs for this customer
+        ResultSet results = DButils.runQueryFroResult(SQLCustomerFacade.getAllCustomerCoupons, params);
+        int couponId = -1;
+        while(results.next()) {
+            couponId = results.getInt(2);
+            // Create coupon and add to list
+            Map<Integer, Object> paramsOfCouponIDs = new HashMap<>();
+            paramsOfCouponIDs.put(1, couponId);
+            ResultSet theCoupons = DButils.runQueryFroResult(SQLcommands.getOneCoupon, paramsOfCouponIDs);
+            while (theCoupons.next()) {
+                int id = theCoupons.getInt(1);
+                int companyId = theCoupons.getInt(2);
+                int categoryID = theCoupons.getInt(3);
+                String title = theCoupons.getString(4);
+                String description = theCoupons.getString(5);
+                Date startDate = theCoupons.getDate(6);
+                Date endDate = theCoupons.getDate(7);
+                int amount = theCoupons.getInt(8);
+                Double price = theCoupons.getDouble(9);
+                String image = theCoupons.getString(10);
+                Coupon tempCoupon = (new Coupon(id, companyId, categoryID, title, description, startDate, endDate, amount, price, image));
+                myList.add(tempCoupon);
+            }
         }
         return myList;
     }
@@ -241,11 +250,11 @@ public class CouponsDBDAO implements CouponsDao {
         params.put(2, category);
         List<Coupon> couponsFromCategory = new ArrayList<>();
         ResultSet coupon = DButils.runQueryFroResult
-                (SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory);
+                (SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory,params);
         while (coupon.next()) {
             int id = coupon.getInt(1);
             int companyId = coupon.getInt(2);
-            Category categoryID = (Category) coupon.getObject(3);
+            int categoryID = coupon.getInt(3);
             String title = coupon.getString(4);
             String description = coupon.getString(5);
             Date startDate = coupon.getDate(6);
@@ -270,7 +279,7 @@ public class CouponsDBDAO implements CouponsDao {
         while (coupons.next()) {
             int id = coupons.getInt(1);
             int companyId = coupons.getInt(2);
-            Category categoryID = (Category) coupons.getObject(3);
+            int categoryID = coupons.getInt(3);
             String title = coupons.getString(4);
             String description = coupons.getString(5);
             Date startDate = coupons.getDate(6);

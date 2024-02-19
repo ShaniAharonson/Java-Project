@@ -101,5 +101,5 @@ public class SQLcommands {
 
     public static final String getAllCompanyCoupon = "SELECT * FROM javaproject.coupons where company_id = ?";
 
-    public static final String addCategory = "INSERT INTO `javaproject`.`categories` (`name`) VALUES (?)";
+    public static final String addCategory = "INSERT INTO `javaproject`.`categories` (`id`, `name`) VALUES (?, ?);";
 }

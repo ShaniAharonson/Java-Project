@@ -10,7 +10,9 @@ import cls.SQLCompanyFacade;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CompanyFacade extends ClientFacade implements ICompany {
     private int companyID;
@@ -33,14 +35,15 @@ public class CompanyFacade extends ClientFacade implements ICompany {
      */
     @Override
     public boolean login(String email, String password) throws SQLException {
-
-        ResultSet companyID = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin);
-        while (companyID.next()) {
-            Company company = new Company(email, password);
-            companyID.getInt(1);
-            company.setPassword(company.getPassword());
-            company.setEmail(company.getEmail());
+        Map<Integer,Object> params = new HashMap<>();
+        params.put(1,email);
+        params.put(2,password);
+        ResultSet resultSet = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin,params);
+        int companyId = -1;
+        while (resultSet.next()) {
+            companyId = resultSet.getInt(1);
         }
+        setCompanyID(companyId);
         System.out.println("Company ID is: " + companyID);
         // getting company ID if login was successful
         return true;

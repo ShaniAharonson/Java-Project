@@ -2,6 +2,8 @@ package cls;
 
 import Facade.*;
 
+import java.sql.SQLException;
+
 public class LoginManager {
     private static LoginManager instance = null;
 // singleTon class
@@ -29,12 +31,23 @@ public class LoginManager {
      * @param type
      * @return - the facade login
      */
-    public ClientFacade login(String email, String password, ClientType type) {
-        return switch (type) {
-            case ADMINISTRATOR -> new AdminFacade();
-            case COMPANY -> new CompanyFacade();
-            case CUSTOMER -> new CustomerFacade();
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        };
+    public ClientFacade login(String email, String password, ClientType type) throws SQLException {
+        ClientFacade clientFacade = null;
+        switch (type) {
+            case ADMINISTRATOR:
+                clientFacade = new AdminFacade();
+                break;
+            case COMPANY:
+                clientFacade = new CompanyFacade();
+                break;
+            case CUSTOMER:
+                clientFacade = new CustomerFacade();
+                break;
+        }
+        boolean result  = clientFacade.login(email,password);
+        if(result){
+            return clientFacade;
+        }
+        throw new IllegalStateException("Unexpected value: " + type);
     }
 }

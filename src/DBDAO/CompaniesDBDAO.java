@@ -2,6 +2,7 @@ package DBDAO;
 
 import DAO.CompaniesDAO;
 import Exceptions.sqlExceptions;
+import JavaBeans.Category;
 import JavaBeans.Company;
 import cls.ConnectionPool;
 import cls.DButils;
@@ -56,7 +57,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public void updateCompany(Company company) {
         Map<Integer, Object> params = new HashMap<>();
-        params.put(4,company.getId());
+        params.put(4, company.getId());
         params.put(2, company.getEmail());
         params.put(3, company.getPassword());
         params.put(1, company.getName());
@@ -107,7 +108,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
             throw new sqlExceptions(err.getMessage());
         }
 
-       throw new sqlExceptions();
+        throw new sqlExceptions();
     }
 
     @Override
@@ -120,5 +121,13 @@ public class CompaniesDBDAO implements CompaniesDAO {
             throw new RuntimeException(e);
         }
         System.out.println("Company name: " + name + " \n email: " + email);
+    }
+
+    @Override
+    public void addCategory(Category category) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, category.ordinal());
+        params.put(2, category.name());
+        DButils.runQuery(SQLcommands.addCategory, params);
     }
 }

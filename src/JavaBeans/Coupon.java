@@ -5,7 +5,7 @@ import java.util.Date;
 public class Coupon {
     private Integer id;
     private Integer companyID;
-    private JavaBeans.Category category;
+    private int category;
     private String title;
     private String description;
     private java.sql.Date startDate;
@@ -14,9 +14,10 @@ public class Coupon {
     private Double price;
     private String image;
 
+    public Coupon() {
+    }
 
-// without ID
-    public Coupon(Integer companyID, Category category, String title, String description,
+    public Coupon(Integer companyID, int category, String title, String description,
                   java.sql.Date startDate, java.sql.Date endDate, int amount, Double price, String image) {
         this.companyID = companyID;
         this.category = category;
@@ -29,7 +30,7 @@ public class Coupon {
         this.image = image;
     }
 
-    public Coupon(Integer id, Integer companyID, Category category, String title,
+    public Coupon(Integer id, Integer companyID, int category, String title,
                   String description, Date startDate, Date endDate,
                   Integer amount, Double price, String image) {
         this.id = id;
@@ -60,11 +61,11 @@ public class Coupon {
         this.companyID = companyID;
     }
 
-    public JavaBeans.Category getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

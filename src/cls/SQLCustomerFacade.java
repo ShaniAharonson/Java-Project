@@ -11,12 +11,12 @@ public class SQLCustomerFacade {
             "where customers_id = ?";
 
     public static final String getGetAllCustomerCouponsFromSpecificCategory = " " +
-            "SSELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons" +
+            "SELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons" +
             " ON coupons.id = customers_vs_coupons.coupon_id WHERE customers_vs_coupons.customers_id = ? " +
             "AND coupons.category_id = ?;";
 
     public static final String getCouponByPrice = " " +
-            "SSELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons " +
+            "SELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons " +
             "ON coupons.id = customers_vs_coupons.coupon_id " +
             "WHERE customers_vs_coupons.customers_id = ? AND coupons.price <= ?;";
 

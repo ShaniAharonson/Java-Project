@@ -14,5 +14,5 @@ public interface ICustomer {
     public List<Coupon> getCustomerCoupons(int customerID);
     public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException;
     public List<Coupon> getCouponsByPrice(Integer customerID, Double price) throws SQLException;
-    public Customer customerDetails(String email, String password) throws sqlExceptions;
+    public Customer customerDetails() throws sqlExceptions;
 }

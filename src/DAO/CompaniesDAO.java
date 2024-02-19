@@ -1,6 +1,7 @@
 package DAO;
 
 import Exceptions.sqlExceptions;
+import JavaBeans.Category;
 import JavaBeans.Company;
 
 import java.sql.SQLException;
@@ -57,4 +58,5 @@ public interface CompaniesDAO {
      * @param email
      */
     public void companyDetails(String name, String email);
+    public void addCategory(Category category);
 }

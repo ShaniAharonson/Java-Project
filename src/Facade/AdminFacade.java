@@ -2,6 +2,7 @@ package Facade;
 
 import Exceptions.sqlExceptions;
 import IFacades.IAdmin;
+import JavaBeans.Category;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
@@ -169,5 +170,9 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      */
     public Customer getOneCustomer(int customerID) throws sqlExceptions {
         return customersDBDAO.getOneCustomer(customerID);
+    }
+
+    public void addCategory(Category category){
+        companiesDBDAO.addCategory(category);
     }
 }

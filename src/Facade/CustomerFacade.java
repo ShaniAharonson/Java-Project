@@ -11,9 +11,7 @@ import cls.SQLCustomerFacade;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CustomerFacade extends ClientFacade implements ICustomer {
     public int getCustomerID() {
@@ -36,14 +34,16 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      */
     @Override
     public boolean login(String email, String password) throws SQLException {
-        ResultSet customerID = DButils.runQueryFroResult(SQLCustomerFacade.CustomerLogin);
-        while (customerID.next()) {
-            customerID.getInt(1);
-            Customer customer = new Customer(email, password);
-            customer.setPassword(customer.getPassword());
-            customer.setEmail(customer.getEmail());
+        Map<Integer,Object> params = new HashMap<>();
+        params.put(1,email);
+        params.put(2, password);
+        ResultSet results = DButils.runQueryFroResult(SQLCustomerFacade.CustomerLogin,params);
+        int customerID = -1;
+        while (results.next()) {
+            customerID = results.getInt(1);
         }
         System.out.println("login successful!");
+        setCustomerID(customerID);
         return true;
     }
 
@@ -96,7 +96,8 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     public List<Coupon> getCustomerCoupons(int customerID) {
         List<Coupon> customer_Coupons_purchases = new ArrayList<>();
         try {
-            customer_Coupons_purchases.add((Coupon) couponsDBDAO.getAllCustomerCoupons(customerID));
+            customer_Coupons_purchases = couponsDBDAO.getAllCustomerCoupons(customerID);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -127,24 +128,15 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
         return couponsDBDAO.getCustomerCouponsByPrice(customerID, price);
     }
 
-    /**
-     * getting customer details
-     * @param email
-     * @param password
-     * @return - details by customer id
-     * @throws sqlExceptions
-     */
-    public Customer customerDetails(String email, String password) throws sqlExceptions {
-        try {
-            if (login(email, password)) {
-                return customersDBDAO.getOneCustomer(getCustomerID());
 
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Customer customerDetails() throws sqlExceptions {
 
 
-        return null;
+                return customersDBDAO.getOneCustomer(this.CustomerID);
+
+
+
+
+
     }
 }
