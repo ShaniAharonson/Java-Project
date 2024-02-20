@@ -59,9 +59,10 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public void deleteCoupon(int id) {
+    public void deleteCoupon(int id, int companyID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, id);
+        params.put(2,companyID);
         DButils.runQuery(SQLcommands.deleteCoupon, params);
     }
 
@@ -163,7 +164,7 @@ public class CouponsDBDAO implements CouponsDao {
     public List<Coupon> getAllCompanyCouponFromSpecificCategory(int companyID, Category category) throws sqlExceptions {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, companyID);
-        params.put(2, category);
+        params.put(2, category.ordinal());
         List<Coupon> couponsFromCategory = new ArrayList<>();
         ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getGetAllCompaniesCouponFromSpecificCategory, params);
         try {
@@ -188,12 +189,12 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException {
+    public List<Coupon> getCouponByPrice(int CompanyID, double price) throws SQLException {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CompanyID);
         params.put(2, price);
         List<Coupon> couponsByPrice = new ArrayList<>();
-        ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getCouponsByPrice);
+        ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getCouponsByPrice,params);
         while (coupons.next()) {
             Integer id = coupons.getInt(1);
             CompanyID = coupons.getInt(2);
@@ -213,41 +214,36 @@ public class CouponsDBDAO implements CouponsDao {
 
     @Override
     public List<Coupon> getAllCustomerCoupons(int CustomerID) throws SQLException {
-        List<Coupon> myList = new ArrayList<>();
+
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CustomerID);
         // Result set - contains a list of coupon IDs for this customer
         ResultSet results = DButils.runQueryFroResult(SQLCustomerFacade.getAllCustomerCoupons, params);
-        int couponId = -1;
-        while(results.next()) {
-            couponId = results.getInt(2);
-            // Create coupon and add to list
-            Map<Integer, Object> paramsOfCouponIDs = new HashMap<>();
-            paramsOfCouponIDs.put(1, couponId);
-            ResultSet theCoupons = DButils.runQueryFroResult(SQLcommands.getOneCoupon, paramsOfCouponIDs);
-            while (theCoupons.next()) {
-                int id = theCoupons.getInt(1);
-                int companyId = theCoupons.getInt(2);
-                int categoryID = theCoupons.getInt(3);
-                String title = theCoupons.getString(4);
-                String description = theCoupons.getString(5);
-                Date startDate = theCoupons.getDate(6);
-                Date endDate = theCoupons.getDate(7);
-                int amount = theCoupons.getInt(8);
-                Double price = theCoupons.getDouble(9);
-                String image = theCoupons.getString(10);
-                Coupon tempCoupon = (new Coupon(id, companyId, categoryID, title, description, startDate, endDate, amount, price, image));
-                myList.add(tempCoupon);
-            }
+        List<Coupon> myList = new ArrayList<>();
+        //int couponId = -1;
+        while (results.next()) {
+             Integer id = results.getInt(1);
+            int CompanyID = results.getInt(2);
+            int categoryID = results.getInt(3);
+            String title = results.getString(4);
+            String description = results.getString(5);
+            Date startDate = results.getDate(6);
+            Date endDate = results.getDate(7);
+            Integer amount = results.getInt(8);
+            Double price = results.getDouble(9);
+            String image = results.getString(10);
+            Coupon tempCoupon = (new Coupon(id, CompanyID, categoryID, title, description,
+                    startDate, endDate, amount, price, image));
+            myList.add(tempCoupon);
+
         }
         return myList;
     }
-
     @Override
     public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
-        params.put(2, category);
+        params.put(2, category.ordinal());
         List<Coupon> couponsFromCategory = new ArrayList<>();
         ResultSet coupon = DButils.runQueryFroResult
                 (SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory,params);
@@ -275,7 +271,7 @@ public class CouponsDBDAO implements CouponsDao {
         params.put(1, customerID);
         params.put(2, price);
         List<Coupon> couponsByPrice = new ArrayList<>();
-        ResultSet coupons = DButils.runQueryFroResult(SQLCustomerFacade.getCouponByPrice);
+        ResultSet coupons = DButils.runQueryFroResult(SQLCustomerFacade.getCouponByPrice,params);
         while (coupons.next()) {
             int id = coupons.getInt(1);
             int companyId = coupons.getInt(2);
@@ -301,8 +297,7 @@ public class CouponsDBDAO implements CouponsDao {
 
 
     }
-// don't forget to create function that adding Category name the sql table.
-    // like adding company
+
 }
 
 

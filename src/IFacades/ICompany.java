@@ -12,10 +12,10 @@ public interface ICompany {
     public boolean login(String email, String password) throws SQLException;
     public void addCoupon(Coupon coupon) throws SQLException;
     public void updateCoupon(Coupon coupon) throws sqlExceptions;
-    public void deleteExistsCoupon(Coupon coupon);
+    public void deleteExistsCoupon(int couponID, int companyID);
     public List<Coupon> getAllCompanyCoupon(int companyID);
     public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category);
     public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException;
-    public Company companyDetails(String email, String password);
+    public Company companyDetails();
 
 }

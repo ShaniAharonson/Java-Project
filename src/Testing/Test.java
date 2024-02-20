@@ -3,14 +3,11 @@ package Testing;
 import DBDAO.CouponsDBDAO;
 import Facade.AdminFacade;
 import Facade.ClientType;
-import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
 import cls.LoginManager;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 public class Test {
@@ -69,40 +66,67 @@ public class Test {
 */
 
 // *********************************** Company Testing ************************************** //
-        CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
+ /*       CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                 "Wix@wix.com", "444444", ClientType.COMPANY);
-
+        // adding category to Categories Table
         adminFacade.addCategory(Category.Restaurant);
+
+        // adding new coupons
         companyFacade.addCoupon(new Coupon(3, 0, "pai", "pai with apples",
                 Date.valueOf(LocalDate.of(2020, 7, 4)),
                 Date.valueOf(LocalDate.of(2024, 7, 4)),
-                30, 20.5,"image"));
+                30, 20.5, "image"));
 
-  /*      companyFacade.addCoupon(new Coupon(4, Category.Electricity, "Computer",
-                "Del computer", new Date(), new Date(2025 - 01 - 01), 50,
-                2000.0,
-                "  _" +
-                        "     |-|  __" +
-                        "     |=| [Ll]" +
-                        "     ^ ====`o"));*/
-     /*   Coupon couponToUpdate = new Coupon(4, 1, "Cherry",
-                "beautiful cherries", new Date(2021 - 1 - 13), new Date(2025 - 1 - 14), 300, 50.5,
-                " __.--~~.,-.__" +
-                        "   `~-._.-(`-.__`-." +
-                        "               `~~`" +
-                        "      .--./ " +
-                        "     /#     .--." +
-                        "         /  /#   " +
-                        " jgs  '--'       /" +
-                        "              '--'");
-        companyFacade.updateCoupon(couponToUpdate);
-        companyFacade.deleteExistsCoupon(couponToUpdate);
+        companyFacade.addCoupon(new Coupon(3, 0, "chocolate", "the best chocolate ever!",
+                Date.valueOf(LocalDate.of(2019, 9, 24)),
+                Date.valueOf(LocalDate.of(2026, 9, 24)),
+                70, 4.9, "image1"));
+
+        companyFacade.addCoupon(new Coupon(5, 3, "vacation in greece", "have fun in RODOS",
+                Date.valueOf(LocalDate.of(2021, 6, 20)),
+                Date.valueOf(LocalDate.of(2024, 8, 30)),
+                2500, 5000.0, "image2"));
+
+        companyFacade.addCoupon(new Coupon(5, 3, "vacation in Italy", "have fun in TOSCANA!",
+                Date.valueOf(LocalDate.of(2023, 5, 30)),
+                Date.valueOf(LocalDate.of(2024, 5, 30)),
+                5000, 6500.5, "image6"));
+
+        companyFacade.addCoupon(new Coupon(2, 1, "screen", "Del screen",
+                Date.valueOf(LocalDate.of(2022, 10, 10)),
+                Date.valueOf(LocalDate.of(2024, 10, 30)),
+                30, 20.5, "image3"));
+
+        companyFacade.addCoupon(new Coupon(4, 2, "BBB", "Deal burger",
+                Date.valueOf(LocalDate.of(2022, 4, 5)),
+                Date.valueOf(LocalDate.of(2024, 5, 5)),
+                55, 100.9, "image4"));
+        companyFacade.addCoupon(new Coupon(2, 1, "Computer",
+                "Del computer", Date.valueOf(LocalDate.of(2019, 2, 4))
+                , Date.valueOf(LocalDate.of(2027, 7, 4)), 100,2000.0, "image5"));
+
+        // updating coupon
+        Coupon updateCoupon = adminFacade.getOneCoupon(18);
+        updateCoupon.setAmount(150);
+
+        // delete existing coupon
+        companyFacade.deleteExistsCoupon(1, 3);
+
+        // printing all coupons of one company
+        System.out.println("the coupons of the comapany:");
         companyFacade.getAllCompanyCoupon(4)
                 .forEach(System.out::println);
+
+        // getting all coupons from a specific category
+        System.out.println("the coupons from specific category:");
         companyFacade.getAllCouponsFromSpecificCategory(4, Category.Electricity)
                 .forEach(System.out::println);
-        companyFacade.getAllCouponsByPrice(4, 2000.0);
-        companyFacade.companyDetails("Wix", "Wix@wix.com");
+
+        // getting all coupons by max price
+        System.out.println("the coupons by price:");
+        companyFacade.getAllCouponsByPrice(4, 2000.0)
+                        .forEach(System.out::println);
+          companyFacade.companyDetails(); // why is not return an answer?
 */
 
         // *************************** Customer Testing ************************************//
@@ -115,14 +139,17 @@ public class Test {
         System.out.println(getOneCoupon);
 
         couponsDBDAO.addCouponPurchase(customerFacade.getCustomerID(), getOneCoupon.getId());
-
-        List<Coupon> couponArrayList =customerFacade.getCustomerCoupons(2);
+// need to change sql query for function - get all customers coupons
+        System.out.println("List of customer's coupons:");
+       List<Coupon> couponArrayList =customerFacade.getCustomerCoupons(3);
         System.out.println("Get Customer coupons:");
         System.out.println(couponArrayList);
 
-        customerFacade.get_All_Customer_Coupons_From_Specific_Category(2, Category.Food);
+        System.out.println("All customer coupons from specific category:");
+        customerFacade.get_All_Customer_Coupons_From_Specific_Category(3,Category.Electricity)
+                .forEach(System.out::println);
         customerFacade.getCouponsByPrice(1, 20.5);
-        //    customerFacade.customerDetails( "Shani@shani.com","Shani", "Aharonson",);
+            customerFacade.customerDetails();
     }
 
 }

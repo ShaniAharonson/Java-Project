@@ -29,7 +29,7 @@ public interface CouponsDao {
      *
      * @param id
      */
-    public void deleteCoupon(int id);
+    public void deleteCoupon(int id, int companyID);
 
     /**
      * function to get all coupons by list
@@ -86,7 +86,7 @@ public interface CouponsDao {
      * @return - the relevant coupons
      * @throws SQLException
      */
-    public List<Coupon> getCouponByPrice(Integer CompanyID, double price) throws SQLException;
+    public List<Coupon> getCouponByPrice(int CompanyID, double price) throws SQLException;
 
     /**
      * getting all customer coupon by customer id

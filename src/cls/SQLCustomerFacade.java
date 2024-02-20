@@ -6,14 +6,14 @@ public class SQLCustomerFacade {
             "FROM javaproject.customers " +
             "where email = ? and password = ?";
     public static final String getAllCustomerCoupons = " " +
-            "SELECT coupon_id as CouponID " +
-            "FROM javaproject.customers_vs_coupons " +
-            "where customers_id = ?";
+            "SELECT * FROM  javaproject.coupons " +
+            "JOIN javaproject.customers_vs_coupons ON coupons.id = customers_vs_coupons.coupon_id " +
+            "WHERE customers_id = ?";
 
     public static final String getGetAllCustomerCouponsFromSpecificCategory = " " +
-            "SELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons" +
-            " ON coupons.id = customers_vs_coupons.coupon_id WHERE customers_vs_coupons.customers_id = ? " +
-            "AND coupons.category_id = ?;";
+            "SELECT coupons.title FROM javaproject.customers_vs_coupons join javaproject.coupons " +
+            "ON coupons.id = customers_vs_coupons.coupon_id " +
+            "WHERE customers_vs_coupons.customers_id = ? AND coupons.category_id = ?";
 
     public static final String getCouponByPrice = " " +
             "SELECT coupons.title FROM javaproject.customers_vs_coupon join javaproject.coupons " +

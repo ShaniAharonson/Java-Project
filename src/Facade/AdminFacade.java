@@ -74,10 +74,10 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      */
     public void deleteCompany(int companyID) throws SQLException {
         // Company company  = new Company();
-        List<Coupon> companyCoupons = couponsDBDAO.getAllCompanyCoupons(companyID);
+        /*List<Coupon> companyCoupons = couponsDBDAO.getAllCompanyCoupons(companyID);
         for (Coupon c : companyCoupons) {
-            couponsDBDAO.deleteCoupon(c.getId());
-        }
+            couponsDBDAO.deleteCoupon(companyID, companyCoupons.);
+        }*/
         companiesDBDAO.deleteCompany(companyID);
 
     }
@@ -144,10 +144,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @throws SQLException
      */
     public void deleteCustomer(int customerID) throws SQLException {
-        List<Coupon> customerCoupons = couponsDBDAO.getAllCustomerCoupons(customerID);
-        for (Coupon c : customerCoupons) {
-            couponsDBDAO.deleteCoupon(c.getId());
-        }
+
         customersDBDAO.deleteCustomer(customerID);
     }
 
@@ -170,6 +167,9 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      */
     public Customer getOneCustomer(int customerID) throws sqlExceptions {
         return customersDBDAO.getOneCustomer(customerID);
+    }
+    public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
+        return couponsDBDAO.getOneCoupon(CouponID);
     }
 
     public void addCategory(Category category){

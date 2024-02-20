@@ -35,10 +35,10 @@ public class CompanyFacade extends ClientFacade implements ICompany {
      */
     @Override
     public boolean login(String email, String password) throws SQLException {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1,email);
-        params.put(2,password);
-        ResultSet resultSet = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin,params);
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, email);
+        params.put(2, password);
+        ResultSet resultSet = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin, params);
         int companyId = -1;
         while (resultSet.next()) {
             companyId = resultSet.getInt(1);
@@ -59,9 +59,9 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         couponsDBDAO.updateCoupon(coupon);
     }
 
-    public void deleteExistsCoupon(Coupon coupon) {
+    public void deleteExistsCoupon(int couponID, int companyID) {
 
-        couponsDBDAO.deleteCoupon(coupon.getId());
+        couponsDBDAO.deleteCoupon(couponID,getCompanyID());
 
     }
 
@@ -101,23 +101,15 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
     /**
      * getting company details
-     * @param email
-     * @param password
-     * @return
+     *
+     * @return - the relevant company by id
      */
-    public Company companyDetails(String email, String password) {
+    public Company companyDetails() {
         try {
-            if (login(email, password)) {
-                try {
-                    return companiesDBDAO.getOneCompany(getCompanyID());
-                } catch (sqlExceptions e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        } catch (SQLException e) {
+            return companiesDBDAO.getOneCompany(getCompanyID());
+        } catch (sqlExceptions e) {
             throw new RuntimeException(e);
         }
-
-        return null;
     }
+
 }

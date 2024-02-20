@@ -87,7 +87,7 @@ public class SQLcommands {
             "SET company_id= ?, category_id= ?, title= ?, description= ?," +
             " start_date = ?, end_date = ?, amount = ?, price = ? WHERE id = ?";
 
-    public static String deleteCoupon = "delete FROM javaproject.coupons where id = ?";
+    public static String deleteCoupon = "delete FROM javaproject.coupons where id = ? AND company_id = ?";
 
     public static String getAllCoupons = "SELECT * FROM javaproject.coupons";
 
