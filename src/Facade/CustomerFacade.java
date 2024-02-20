@@ -112,8 +112,8 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * @return - relevant coupons from the specific category
      * @throws SQLException
      */
-    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID,Category category) throws SQLException {
-        return couponsDBDAO.get_All_Customer_Coupons_From_Specific_Category(getCustomerID(), Category.valueOf(category.name()));
+    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(Category category) throws SQLException {
+        return couponsDBDAO.get_All_Customer_Coupons_From_Specific_Category(getCustomerID(),category);
     }
 
     /**

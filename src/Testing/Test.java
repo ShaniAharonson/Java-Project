@@ -3,11 +3,16 @@ package Testing;
 import DBDAO.CouponsDBDAO;
 import Facade.AdminFacade;
 import Facade.ClientType;
+import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import JavaBeans.Category;
+import JavaBeans.Company;
 import JavaBeans.Coupon;
+import JavaBeans.Customer;
 import cls.LoginManager;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Test {
@@ -19,7 +24,7 @@ public class Test {
         AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
                 "admin@admin.com", "admin", ClientType.ADMINISTRATOR);
 
- /*        adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
+         adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         System.out.println("add company amazon");
 
         adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
@@ -63,10 +68,10 @@ public class Test {
         System.out.println(customers);
         Customer getOne = adminFacade.getOneCustomer(2);
         System.out.println(getOne);
-*/
+
 
 // *********************************** Company Testing ************************************** //
- /*       CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
+       CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                 "Wix@wix.com", "444444", ClientType.COMPANY);
         // adding category to Categories Table
         adminFacade.addCategory(Category.Restaurant);
@@ -127,7 +132,7 @@ public class Test {
         companyFacade.getAllCouponsByPrice(4, 2000.0)
                         .forEach(System.out::println);
           companyFacade.companyDetails(); // why is not return an answer?
-*/
+
 
         // *************************** Customer Testing ************************************//
         CustomerFacade customerFacade = (CustomerFacade) LoginManager.getInstance().login(
@@ -146,10 +151,17 @@ public class Test {
         System.out.println(couponArrayList);
 
         System.out.println("All customer coupons from specific category:");
-        customerFacade.get_All_Customer_Coupons_From_Specific_Category(3,Category.Electricity)
+        customerFacade.get_All_Customer_Coupons_From_Specific_Category(Category.Vacation)
                 .forEach(System.out::println);
-        customerFacade.getCouponsByPrice(1, 20.5);
+
+        System.out.println("Get all coupons by price:");
+        customerFacade.getCouponsByPrice(1, 20.5).forEach(System.out::println);
             customerFacade.customerDetails();
+
+
+            jobThread.stop(); // how to close thread if not like this?
+            System.out.println("Stopping thread!");
+        //    System.exit(0);
     }
 
 }
