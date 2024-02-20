@@ -6,13 +6,9 @@ import Facade.ClientType;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import JavaBeans.Category;
-import JavaBeans.Company;
 import JavaBeans.Coupon;
-import JavaBeans.Customer;
 import cls.LoginManager;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 public class Test {
@@ -24,7 +20,7 @@ public class Test {
         AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
                 "admin@admin.com", "admin", ClientType.ADMINISTRATOR);
 
-         adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
+     /*   adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         System.out.println("add company amazon");
 
         adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
@@ -68,13 +64,13 @@ public class Test {
         System.out.println(customers);
         Customer getOne = adminFacade.getOneCustomer(2);
         System.out.println(getOne);
-
+*/
 
 // *********************************** Company Testing ************************************** //
-       CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
+        CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                 "Wix@wix.com", "444444", ClientType.COMPANY);
         // adding category to Categories Table
-        adminFacade.addCategory(Category.Restaurant);
+   /*     adminFacade.addCategory(Category.Restaurant);
 
         // adding new coupons
         companyFacade.addCoupon(new Coupon(3, 0, "pai", "pai with apples",
@@ -108,7 +104,7 @@ public class Test {
                 55, 100.9, "image4"));
         companyFacade.addCoupon(new Coupon(2, 1, "Computer",
                 "Del computer", Date.valueOf(LocalDate.of(2019, 2, 4))
-                , Date.valueOf(LocalDate.of(2027, 7, 4)), 100,2000.0, "image5"));
+                , Date.valueOf(LocalDate.of(2027, 7, 4)), 100, 2000.0, "image5"));
 
         // updating coupon
         Coupon updateCoupon = adminFacade.getOneCoupon(18);
@@ -130,10 +126,10 @@ public class Test {
         // getting all coupons by max price
         System.out.println("the coupons by price:");
         companyFacade.getAllCouponsByPrice(4, 2000.0)
-                        .forEach(System.out::println);
-          companyFacade.companyDetails(); // why is not return an answer?
+                .forEach(System.out::println);
+        System.out.println("company details:  "+ companyFacade.companyDetails());
 
-
+*/
         // *************************** Customer Testing ************************************//
         CustomerFacade customerFacade = (CustomerFacade) LoginManager.getInstance().login(
                 "ofir@ofir.com", "404040", ClientType.CUSTOMER);
@@ -146,7 +142,7 @@ public class Test {
         couponsDBDAO.addCouponPurchase(customerFacade.getCustomerID(), getOneCoupon.getId());
 // need to change sql query for function - get all customers coupons
         System.out.println("List of customer's coupons:");
-       List<Coupon> couponArrayList =customerFacade.getCustomerCoupons(3);
+        List<Coupon> couponArrayList = customerFacade.getCustomerCoupons(3);
         System.out.println("Get Customer coupons:");
         System.out.println(couponArrayList);
 
@@ -156,11 +152,12 @@ public class Test {
 
         System.out.println("Get all coupons by price:");
         customerFacade.getCouponsByPrice(1, 20.5).forEach(System.out::println);
-            customerFacade.customerDetails();
+        System.out.println();
+        System.out.println("customer details:  " + customerFacade.customerDetails());
 
 
-            jobThread.stop(); // how to close thread if not like this?
-            System.out.println("Stopping thread!");
+        jobThread.stop(); // how to close thread if not like this?
+        System.out.println("Stopping thread!");
         //    System.exit(0);
     }
 
