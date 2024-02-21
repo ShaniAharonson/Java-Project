@@ -6,10 +6,14 @@ import Facade.ClientType;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import JavaBeans.Category;
+import JavaBeans.Company;
 import JavaBeans.Coupon;
+import JavaBeans.Customer;
 import cls.ConnectionPool;
 import cls.LoginManager;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Test {
@@ -21,7 +25,7 @@ public class Test {
         AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login(
                 "admin@admin.com", "admin", ClientType.ADMINISTRATOR);
 
-     /*   adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
+        adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         System.out.println("add company amazon");
 
         adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
@@ -65,13 +69,13 @@ public class Test {
         System.out.println(customers);
         Customer getOne = adminFacade.getOneCustomer(2);
         System.out.println(getOne);
-*/
+
 
 // *********************************** Company Testing ************************************** //
         CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                 "Wix@wix.com", "444444", ClientType.COMPANY);
         // adding category to Categories Table
-   /*     adminFacade.addCategory(Category.Restaurant);
+        adminFacade.addCategory(Category.Restaurant);
 
         // adding new coupons
         companyFacade.addCoupon(new Coupon(3, 0, "pai", "pai with apples",
