@@ -134,7 +134,7 @@ public class Test {
                 .forEach(System.out::println);
         System.out.println("company details:  "+ companyFacade.companyDetails());
 
-*/
+
         // *************************** Customer Testing ************************************//
         CustomerFacade customerFacade = (CustomerFacade) LoginManager.getInstance().login(
                 "ofir@ofir.com", "404040", ClientType.CUSTOMER);
