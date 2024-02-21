@@ -7,6 +7,7 @@ import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
+import cls.ConnectionPool;
 import cls.LoginManager;
 
 import java.util.List;
@@ -156,9 +157,11 @@ public class Test {
         System.out.println("customer details:  " + customerFacade.customerDetails());
 
 
-        jobThread.stop(); // how to close thread if not like this?
+
         System.out.println("Stopping thread!");
-        //    System.exit(0);
+            System.exit(0);
+
+        ConnectionPool.getInstance().closeAllConnections();
     }
 
 }
