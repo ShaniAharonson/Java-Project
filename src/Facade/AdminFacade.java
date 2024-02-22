@@ -1,5 +1,6 @@
 package Facade;
 
+import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import IFacades.IAdmin;
 import JavaBeans.Category;
@@ -11,8 +12,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AdminFacade extends ClientFacade implements IAdmin {
-    String adminEmail = "admin@admin.com";
-    String adminPass = "admin";
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
+    public String getAdminPass() {
+        return adminPass;
+    }
+
+    private final String adminEmail = "admin@admin.com";
+    private final String adminPass = "admin";
 
     /**
      * login function by administer
@@ -113,14 +122,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @throws sqlExceptions
      */
 
-    public void addCustomer(Customer customer) throws sqlExceptions {
-        try {
-            if (customersDBDAO.getAllCustomers().contains(customer.getEmail())) {
-                System.out.println("Customer already exists!");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void addCustomer(Customer customer) {
         customersDBDAO.addCustomer(customer);
     }
 
@@ -165,8 +167,15 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @return
      * @throws sqlExceptions
      */
-    public Customer getOneCustomer(int customerID) throws sqlExceptions {
-        return customersDBDAO.getOneCustomer(customerID);
+    public Customer getOneCustomer(int customerID)  {
+        try {
+            return customersDBDAO.getOneCustomer(customerID);
+        } catch (sqlExceptions e) {
+            System.out.println(e.getMessage());
+        } catch (CustomerNotFoundException e) {
+            System.out.println("Customer id was not found");
+        }
+        return null;
     }
     public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
         return couponsDBDAO.getOneCoupon(CouponID);
@@ -174,5 +183,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     public void addCategory(Category category){
         companiesDBDAO.addCategory(category);
+        System.out.println("i am insinde");
+
     }
 }

@@ -1,5 +1,6 @@
 package DAO;
 
+import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Customer;
 
@@ -48,7 +49,7 @@ public interface CustomersDAO {
      * @return - the relevant customer
      * @throws sqlExceptions
      */
-    public Customer getOneCustomer(int CustomerID) throws sqlExceptions;
+    public Customer getOneCustomer(int CustomerID) throws sqlExceptions, CustomerNotFoundException;
 
     /**
      * function to perform customer details

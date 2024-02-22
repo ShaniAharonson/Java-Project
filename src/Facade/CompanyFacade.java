@@ -1,5 +1,7 @@
 package Facade;
 
+import Exceptions.CouponNotFoundException;
+import Exceptions.DetailsGetWrong;
 import Exceptions.sqlExceptions;
 import IFacades.ICompany;
 import JavaBeans.Category;
@@ -41,6 +43,7 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         ResultSet resultSet = DButils.runQueryFroResult(SQLCompanyFacade.companyLogin, params);
         int companyId = -1;
         while (resultSet.next()) {
+
             companyId = resultSet.getInt(1);
         }
         setCompanyID(companyId);
@@ -51,6 +54,7 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
 
     public void addCoupon(Coupon coupon) throws SQLException {
+
         couponsDBDAO.addCoupon(coupon);
     }
 
@@ -75,9 +79,10 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
     public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) {
         try {
+            System.out.println("CHEKKKKKK");
             return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID, category);
         } catch (sqlExceptions e) {
-            throw new RuntimeException(e);
+            throw new CateGoryError("");
         }
     }
 
@@ -104,12 +109,18 @@ public class CompanyFacade extends ClientFacade implements ICompany {
      *
      * @return - the relevant company by id
      */
-    public Company companyDetails() {
+    public Company companyDetails() throws DetailsGetWrong {
         try {
             return companiesDBDAO.getOneCompany(getCompanyID());
         } catch (sqlExceptions e) {
-            throw new RuntimeException(e);
+            throw new DetailsGetWrong("There is an error with the details");
         }
     }
-
+public Coupon getOneCoupon(int couponID) throws CouponNotFoundException {
+    try {
+        return couponsDBDAO.getOneCoupon(couponID);
+    } catch (sqlExceptions e) {
+        throw new CouponNotFoundException("Coupon ID not found");
+    }
+}
 }

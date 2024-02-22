@@ -126,7 +126,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public void addCategory(Category category) {
         Map<Integer, Object> params = new HashMap<>();
-        params.put(1, category.ordinal());
+        params.put(1, category.ordinal()+1);
         params.put(2, category.name());
         DButils.runQuery(SQLcommands.addCategory, params);
     }

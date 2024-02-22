@@ -9,14 +9,15 @@ public class SQLcommands {
                     "  FOREIGN KEY (`category_id`)" +
                     "  REFERENCES `javaproject`.`categories` (`id`)" +
                     "  ON DELETE CASCADE" +
-                    "  ON UPDATE CASCADE,";
+                    "  ON UPDATE CASCADE ";
 
     public static final String FK_COUPONS_AND_COMPANIES_TO_CATEGORIES2 = " " +
+            "ALTER TABLE `javaproject`.`coupons` " +
             "ADD CONSTRAINT `Companies_FK`" +
             "  FOREIGN KEY (`company_id`)" +
             "  REFERENCES `javaproject`.`companies` (`id`)" +
             "  ON DELETE CASCADE" +
-            "  ON UPDATE CASCADE;";
+            "  ON UPDATE CASCADE";
     public static final String FK_OF_CUSTOMERVSCOUPONS1 =
             "ALTER TABLE `javaproject`.`customers_vs_coupons` " +
                     "ADD INDEX `Coupons_FK_idx` (`coupon_id` ASC) VISIBLE;";

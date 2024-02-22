@@ -1,5 +1,6 @@
 package Facade;
 
+import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import IFacades.ICustomer;
 import JavaBeans.Category;
@@ -34,10 +35,10 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      */
     @Override
     public boolean login(String email, String password) throws SQLException {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1,email);
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, email);
         params.put(2, password);
-        ResultSet results = DButils.runQueryFroResult(SQLCustomerFacade.CustomerLogin,params);
+        ResultSet results = DButils.runQueryFroResult(SQLCustomerFacade.CustomerLogin, params);
         int customerID = -1;
         while (results.next()) {
             customerID = results.getInt(1);
@@ -113,7 +114,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * @throws SQLException
      */
     public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(Category category) throws SQLException {
-        return couponsDBDAO.get_All_Customer_Coupons_From_Specific_Category(getCustomerID(),category);
+        return couponsDBDAO.get_All_Customer_Coupons_From_Specific_Category(getCustomerID(), category);
     }
 
     /**
@@ -129,14 +130,19 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     }
 
 
-    public Customer customerDetails() throws sqlExceptions {
+    public Customer customerDetails() throws sqlExceptions, CustomerNotFoundException {
 
 
-                return customersDBDAO.getOneCustomer(this.CustomerID);
+        return customersDBDAO.getOneCustomer(this.CustomerID);
+    }
 
+    public Coupon getOneCoupon(int couponID) {
 
-
-
+        try {
+            return couponsDBDAO.getOneCoupon(couponID);
+        } catch (sqlExceptions e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

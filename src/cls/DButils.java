@@ -15,9 +15,6 @@ public class DButils {
         Connection connection = null;
 
         try {
-            if (sql.toLowerCase().contains("delete")){
-             return false;
-            }
             //get a connection from connection pool
             connection = ConnectionPool.getInstance().getConnection();
 
@@ -47,13 +44,6 @@ public class DButils {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            /*
-                for (Map.Entry<Integer,Object) item:params.entrySet()){
-
-                }
-
-             */
 
             //lambda expression
             params.forEach((key,value)->{
@@ -124,6 +114,8 @@ public class DButils {
             return preparedStatement.executeQuery();
         } catch (InterruptedException | SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 
@@ -144,6 +136,8 @@ public class DButils {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 

@@ -2,8 +2,9 @@ package cls;
 
 public class Init {
     public static void main(String[] args) {
+
         // calling to the functions
-      /*  createSchema();
+        createSchema();
         createCompanyTable();
         createCustomersTable();
         createCategoriesTable();
@@ -12,7 +13,7 @@ public class Init {
         foreignKeysToComapniesAndCategories1();
         foreignKeysToComapniesAndCategories2();
         fkOfCustomerVSCoupons1();
-        fkOfCustomerVSCoupons2();*/
+        fkOfCustomerVSCoupons2();
 
 
 

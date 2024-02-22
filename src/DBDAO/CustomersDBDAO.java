@@ -1,8 +1,8 @@
 package DBDAO;
 
 import DAO.CustomersDAO;
+import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
-import JavaBeans.Coupon;
 import JavaBeans.Customer;
 import cls.ConnectionPool;
 import cls.DButils;
@@ -70,7 +70,9 @@ public class CustomersDBDAO implements CustomersDAO {
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer> myList = new ArrayList<>();
         ResultSet resultSet = DButils.runQueryFroResult(SQLcommands.getAllCustomers);
+
         while (resultSet.next()) {
+            System.out.println("in get all customer item");
             //id, firstName, lastName, email, password
             Integer id = resultSet.getInt(1);
             String First_Name = resultSet.getString(2);
@@ -78,14 +80,14 @@ public class CustomersDBDAO implements CustomersDAO {
             String email = resultSet.getString(4);
             String password = resultSet.getString(5);
             CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
-            List<Coupon> coupons = couponsDBDAO.getAllCustomerCoupons(id);
-            myList.add(new Customer(id, First_Name, Last_Name, email, password,(ArrayList<Coupon>) coupons));
+            myList.add(new Customer(id, First_Name, Last_Name, email, password));
         }
+        System.out.println("i was exited");
         return myList;
     }
 
     @Override
-    public Customer getOneCustomer(int CustomerID) throws sqlExceptions {
+    public Customer getOneCustomer(int CustomerID) throws sqlExceptions, CustomerNotFoundException {
         Map<Integer,Object> params = new HashMap<>();
         params.put(1,CustomerID);
 
@@ -102,7 +104,7 @@ public class CustomersDBDAO implements CustomersDAO {
         } catch (SQLException err) {
             throw new sqlExceptions(err.getMessage());
         }
-        throw new sqlExceptions();
+        throw new CustomerNotFoundException("Customer id not found");
     }
 
     @Override

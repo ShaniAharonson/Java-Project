@@ -40,9 +40,9 @@ public class SQLTableCommands {
             "  `end_date` DATE NOT NULL," +
             "  `amount` INT NULL," +
             "  `price` DOUBLE NULL," +
+            "  `image` VARCHAR(45) NULL,"+
             "  PRIMARY KEY (`id`)," +
-            "  UNIQUE INDEX `company_id_UNIQUE` (`company_id` ASC) VISIBLE," +
-            "  UNIQUE INDEX `category_id_UNIQUE` (`category_id` ASC) VISIBLE," +
+
             "  UNIQUE INDEX `description_UNIQUE` (`description` ASC) VISIBLE);";
 
     public static final String CREATE_CUSTOMERS_VS_COUPONS_TABLE = "" +

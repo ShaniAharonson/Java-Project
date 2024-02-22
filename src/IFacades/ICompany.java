@@ -1,5 +1,6 @@
 package IFacades;
 
+import Exceptions.DetailsGetWrong;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
 import JavaBeans.Company;
@@ -16,6 +17,6 @@ public interface ICompany {
     public List<Coupon> getAllCompanyCoupon(int companyID);
     public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category);
     public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException;
-    public Company companyDetails();
+    public Company companyDetails() throws DetailsGetWrong;
 
 }
