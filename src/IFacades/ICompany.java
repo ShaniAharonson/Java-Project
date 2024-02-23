@@ -1,5 +1,7 @@
 package IFacades;
 
+import Exceptions.CategoryErrorException;
+import Exceptions.CouponNotFoundException;
 import Exceptions.DetailsGetWrong;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
@@ -15,7 +17,7 @@ public interface ICompany {
     public void updateCoupon(Coupon coupon) throws sqlExceptions;
     public void deleteExistsCoupon(int couponID, int companyID);
     public List<Coupon> getAllCompanyCoupon(int companyID);
-    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category);
+    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) throws CouponNotFoundException, CategoryErrorException;
     public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException;
     public Company companyDetails() throws DetailsGetWrong;
 

@@ -1,5 +1,6 @@
 package IFacades;
 
+import Exceptions.AddingCouponException;
 import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
@@ -11,9 +12,9 @@ import java.util.List;
 
 public interface ICustomer {
     public boolean login(String email, String password) throws SQLException;
-    public void PurchaseCoupon(Coupon coupon);
+    public void PurchaseCoupon(int CustomerID, int couponID) throws AddingCouponException;
     public List<Coupon> getCustomerCoupons(int customerID);
-    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(Category category) throws SQLException;
+    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException;
     public List<Coupon> getCouponsByPrice(Integer customerID, Double price) throws SQLException;
     public Customer customerDetails() throws sqlExceptions, CustomerNotFoundException;
 }

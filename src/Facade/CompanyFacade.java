@@ -1,5 +1,6 @@
 package Facade;
 
+import Exceptions.CategoryErrorException;
 import Exceptions.CouponNotFoundException;
 import Exceptions.DetailsGetWrong;
 import Exceptions.sqlExceptions;
@@ -65,7 +66,7 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
     public void deleteExistsCoupon(int couponID, int companyID) {
 
-        couponsDBDAO.deleteCoupon(couponID,getCompanyID());
+        couponsDBDAO.deleteCoupon(couponID, getCompanyID());
 
     }
 
@@ -77,12 +78,11 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         }
     }
 
-    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) {
+    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) throws CouponNotFoundException, CategoryErrorException {
         try {
-            System.out.println("CHEKKKKKK");
             return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID, category);
         } catch (sqlExceptions e) {
-            throw new CateGoryError("");
+            throw new CategoryErrorException("Category not exists");
         }
     }
 
@@ -113,14 +113,18 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         try {
             return companiesDBDAO.getOneCompany(getCompanyID());
         } catch (sqlExceptions e) {
-            throw new DetailsGetWrong("There is an error with the details");
+            System.out.println(e.getMessage());
+            ;
         }
+        throw new DetailsGetWrong("fail getting details");
     }
-public Coupon getOneCoupon(int couponID) throws CouponNotFoundException {
-    try {
-        return couponsDBDAO.getOneCoupon(couponID);
-    } catch (sqlExceptions e) {
-        throw new CouponNotFoundException("Coupon ID not found");
+
+    public Coupon getOneCoupon(int couponID) throws CouponNotFoundException {
+        try {
+            return couponsDBDAO.getOneCoupon(couponID);
+        } catch (sqlExceptions e) {
+            System.out.println(e.getMessage());
+        }
+        throw new CouponNotFoundException("no coupon id");
     }
-}
 }

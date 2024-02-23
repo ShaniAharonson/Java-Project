@@ -1,6 +1,7 @@
 package DBDAO;
 
 import DAO.CouponsDao;
+import Exceptions.AddingCouponException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
@@ -120,14 +121,26 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public void addCouponPurchase(int customerID, int couponID) {
+    public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, couponID);
 
         DButils.runQuery(SQLcommands.addCouponPurchase, params);
-    }
 
+        /*f ((getEndDate().after(Date.valueOf(LocalDate.now())))) {
+            if (coupon.getAmount() > 0) {
+                coupon.setAmount(coupon.getAmount() - 1); // changing the amount of coupon
+                couponsDBDAO.updateCoupon(coupon); // updating details of coupon
+                couponsDBDAO.addCoupon(coupon);
+
+                System.out.println("You purchase a coupon! " + coupon.getTitle());
+
+            } else {
+                throw new AddingCouponException("Cannot adding coupon!");
+            }*/
+
+    }
     @Override
     public void deleteCouponPurchase(int customersID, int couponID) {
         Map<Integer, Object> params = new HashMap<>();
@@ -164,7 +177,7 @@ public class CouponsDBDAO implements CouponsDao {
     public List<Coupon> getAllCompanyCouponFromSpecificCategory(int companyID, Category category) throws sqlExceptions {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, companyID);
-        params.put(2, category.ordinal());
+        params.put(2, category.ordinal()+1);
         List<Coupon> couponsFromCategory = new ArrayList<>();
         ResultSet coupons = DButils.runQueryFroResult(SQLCompanyFacade.getGetAllCompaniesCouponFromSpecificCategory, params);
         try {
@@ -243,10 +256,9 @@ public class CouponsDBDAO implements CouponsDao {
     public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID, Category category) throws SQLException {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
-        params.put(2, category.ordinal());
+        params.put(2, category.ordinal()+1);
         List<Coupon> couponsFromCategory = new ArrayList<>();
-        ResultSet coupon = DButils.runQueryFroResult
-                (SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory,params);
+        ResultSet coupon = DButils.runQueryFroResult(SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory,params);
         while (coupon.next()) {
             int id = coupon.getInt(1);
             int companyId = coupon.getInt(2);

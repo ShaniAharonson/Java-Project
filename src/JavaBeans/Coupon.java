@@ -15,6 +15,7 @@ public class Coupon {
     private String image;
 
     public Coupon() {
+
     }
 
     public Coupon(Integer companyID, int category, String title, String description,

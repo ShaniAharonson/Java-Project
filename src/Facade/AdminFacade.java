@@ -183,7 +183,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     public void addCategory(Category category){
         companiesDBDAO.addCategory(category);
-        System.out.println("i am insinde");
+        //System.out.println("i am insinde");
 
     }
 }

@@ -110,7 +110,7 @@ public class DButils {
             });
 
 
-            System.out.println(preparedStatement);
+            //System.out.println(preparedStatement);
             return preparedStatement.executeQuery();
         } catch (InterruptedException | SQLException e) {
             throw new RuntimeException(e);

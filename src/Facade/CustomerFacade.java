@@ -1,5 +1,6 @@
 package Facade;
 
+import Exceptions.AddingCouponException;
 import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import IFacades.ICustomer;
@@ -11,8 +12,10 @@ import cls.SQLCustomerFacade;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomerFacade extends ClientFacade implements ICustomer {
     public int getCustomerID() {
@@ -56,38 +59,13 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      *
      * @param coupon
      */
-    public void PurchaseCoupon(Coupon coupon) {
+    public void PurchaseCoupon(int customerID, int couponID) throws AddingCouponException {
 
-        try {
-            // getting one coupon by ID
-            coupon = couponsDBDAO.getOneCoupon(coupon.getId());
-        } catch (sqlExceptions e) {
-            throw new RuntimeException(e);
-        }
-        List<Coupon> customersCoupons = new ArrayList<>();
-        try {
-            // getting all coupons
-            customersCoupons = couponsDBDAO.getAllCustomerCoupons(coupon.getId());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (customersCoupons.contains(coupon)) {
-            // checking if coupon does not valid
-            if ((coupon.getEndDate().after(new Date(String.valueOf(LocalDate.now()))))) {
-                if (coupon.getAmount() > 0) {
-                    coupon.setAmount(coupon.getAmount() - 1); // changing the amount of coupon
-                    couponsDBDAO.updateCoupon(coupon); // updating details of coupon
-                    couponsDBDAO.addCoupon(coupon); //now they cant purchase the same coupon
-                    /*  I added it to the table and if it will appear there, it will pop an error
-                    of duplicate rows */
-                    System.out.println("You purchase a coupon! " + coupon.getTitle());
+        couponsDBDAO.addCouponPurchase(customerID, couponID);
 
-                }
-            }
-        }
+
 
     }
-
     /**
      * getting all customer's coupons
      *
@@ -100,7 +78,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
             customer_Coupons_purchases = couponsDBDAO.getAllCustomerCoupons(customerID);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         return customer_Coupons_purchases;
     }
@@ -113,7 +91,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * @return - relevant coupons from the specific category
      * @throws SQLException
      */
-    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(Category category) throws SQLException {
+    public List<Coupon> get_All_Customer_Coupons_From_Specific_Category(int customerID,Category category) throws SQLException {
         return couponsDBDAO.get_All_Customer_Coupons_From_Specific_Category(getCustomerID(), category);
     }
 

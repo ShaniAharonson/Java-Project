@@ -1,8 +1,6 @@
 package Testing;
 
-import Exceptions.CouponNotFoundException;
-import Exceptions.CustomerNotFoundException;
-import Exceptions.sqlExceptions;
+import Exceptions.*;
 import Facade.AdminFacade;
 import Facade.ClientType;
 import Facade.CompanyFacade;
@@ -18,16 +16,19 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static cls.SQLcommands.getOneCoupon;
-
 public class Test {
     public static void testAll() {
         Thread jobThread = new Thread(() -> LoginManager.getInstance());
         //  jobThread.start();
 
             AdminTesting();
+        try {
             CompanyTesting();
-            CustomerTesting();
+        } catch (CategoryErrorException | CouponNotFoundException | DetailsGetWrong e) {
+            throw new RuntimeException(e);
+        }
+
+        CustomerTesting();
 
 
 
@@ -46,24 +47,35 @@ public class Test {
         try {
             customerFacade = (CustomerFacade) LoginManager.getInstance().login(
                     "ofir@ofir.com", "404040", ClientType.CUSTOMER);
+            System.out.println("CUSTOMER LOGGING!!!!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        customerFacade.getOneCoupon(1);
 
-        System.out.println("Get one coupon:");
-        System.out.println(getOneCoupon);
+        try {
+  //          customerFacade.PurchaseCoupon(2,2);
+  //          customerFacade.PurchaseCoupon(3,7);
+            customerFacade.PurchaseCoupon(3,10);
+        } catch (AddingCouponException e) {
+            System.out.println(e.getMessage());
+        }
+        customerFacade.getOneCoupon(customerFacade.getCustomerID());
+        System.out.println("Customers purchasing coupon!");
 
 
-        System.out.println("List of customer's coupons:");
+        System.out.println();
+
+
+
         List<Coupon> couponArrayList = customerFacade.getCustomerCoupons(3);
         System.out.println("Get Customer coupons:");
         System.out.println(couponArrayList);
+        System.out.println();
 
         System.out.println("All customer coupons from specific category:");
         try {
-            customerFacade.get_All_Customer_Coupons_From_Specific_Category(Category.Food)
+            customerFacade.get_All_Customer_Coupons_From_Specific_Category(3,Category.Electricity)
                     .forEach(System.out::println);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -86,7 +98,7 @@ public class Test {
 
     }
 
-    private static void CompanyTesting() {
+    private static void CompanyTesting() throws CategoryErrorException, CouponNotFoundException, DetailsGetWrong {
         CompanyFacade companyFacade = null;
         try {
 
@@ -199,10 +211,11 @@ public class Test {
         try {
             adminFacade = (AdminFacade) LoginManager.getInstance().login(adminFacade.getAdminEmail(),
                     adminFacade.getAdminPass(), ClientType.ADMINISTRATOR);
+            System.out.println("ADMIN LOGGING!!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
+        System.out.println();
         try {
             adminFacade.addCompany(new Company("Amazon", "amazom@amazon", "1234"));
         } catch (sqlExceptions e) {
@@ -211,6 +224,7 @@ public class Test {
             System.out.println(e.getMessage());
         }
         System.out.println("add company amazon");
+        System.out.println();
 
         try {
             adminFacade.addCompany(new Company("Apple", "Apple@apple.com", "5678"));
@@ -220,6 +234,7 @@ public class Test {
             System.out.println(e.getMessage());
         }
         System.out.println("add company apple");
+        System.out.println();
 
         try {
             adminFacade.addCompany(new Company("cisco", "cisco@cisco.com",
@@ -230,6 +245,7 @@ public class Test {
             System.out.println(e.getMessage());
         }
         System.out.println("add company cisco");
+        System.out.println();
 
         try {
             adminFacade.addCompany(new Company("Wix", "Wix@wix.com", "505050"));
@@ -239,6 +255,7 @@ public class Test {
             System.out.println(e.getMessage());
         }
         System.out.println("add company Wix");
+        System.out.println();
 
         // get company by id :o
 
@@ -259,6 +276,7 @@ public class Test {
         try {
             adminFacade.deleteCompany(1);
             System.out.println("company deleted");
+            System.out.println();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -277,14 +295,17 @@ public class Test {
         }
         adminFacade.addCustomer(new Customer(0, "Shani", "Aharonson", "shani@shani.com", "303030"));
         System.out.println("shani");
+        System.out.println();
         adminFacade.addCustomer(new Customer(0, "Ofir", "Aharonson",
                 "ofir@ofir.com", "404040"));
 
 
         System.out.println("add customer ofir");
+        System.out.println();
         adminFacade.addCustomer(new Customer(0, "Ron", "Bolandi",
                 "ron-bol@gmail.com", "131313"));
         System.out.println("add customer ron");
+        System.out.println();
 
         Customer UpdatedCustomer = null;
         UpdatedCustomer = adminFacade.getOneCustomer(1);
@@ -294,24 +315,31 @@ public class Test {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("111update completed");
+        System.out.println("update completed");
+        System.out.println();
         //adminFacade.deleteCustomer(1);
         adminFacade.addCategory(Category.Electricity);
         System.out.println("Adding electricity category");
+        System.out.println();
         adminFacade.addCategory(Category.Food);
         System.out.println("Adding food category");
+        System.out.println();
         adminFacade.addCategory(Category.Restaurant);
         System.out.println("Adding restaurant category");
+        System.out.println();
         adminFacade.addCategory(Category.Vacation);
         System.out.println("Adding vacation category");
+        System.out.println();
         try {
             System.out.println("getting all customers:");
+            System.out.println();
             adminFacade.getAllCustomers().forEach(System.out::println);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         // System.out.println(customers);
         System.out.println("getting one customer: ");
+        System.out.println();
         Customer getOne = adminFacade.getOneCustomer(1);
 
         System.out.println(getOne);
