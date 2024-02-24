@@ -282,8 +282,8 @@ public class CouponsDBDAO implements CouponsDao {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, price);
-        List<Coupon> couponsByPrice = new ArrayList<>();
         ResultSet coupons = DButils.runQueryFroResult(SQLCustomerFacade.getCouponByPrice,params);
+        List<Coupon> couponsByPrice = new ArrayList<>();
         while (coupons.next()) {
             int id = coupons.getInt(1);
             int companyId = coupons.getInt(2);

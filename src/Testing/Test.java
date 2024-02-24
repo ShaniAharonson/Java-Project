@@ -83,16 +83,14 @@ public class Test {
 
         System.out.println("Get all coupons by price:");
         try {
-            customerFacade.getCouponsByPrice(1, 20.5).forEach(System.out::println);
+            customerFacade.getCouponsByPrice( 7.0).forEach(System.out::println);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         System.out.println();
         try {
             System.out.println("customer details:  " + customerFacade.customerDetails());
-        } catch (sqlExceptions e) {
-            System.out.println(e.getMessage());
-        } catch (CustomerNotFoundException e) {
+        } catch (sqlExceptions | CustomerNotFoundException e) {
             System.out.println(e.getMessage());
         }
 

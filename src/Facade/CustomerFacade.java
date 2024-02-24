@@ -103,8 +103,8 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * @return the relevant coupons
      * @throws SQLException
      */
-    public List<Coupon> getCouponsByPrice(Integer customerID, Double price) throws SQLException {
-        return couponsDBDAO.getCustomerCouponsByPrice(customerID, price);
+    public List<Coupon> getCouponsByPrice(Double maxPrice) throws SQLException {
+        return couponsDBDAO.getCustomerCouponsByPrice(getCustomerID(),maxPrice);
     }
 
 
