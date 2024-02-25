@@ -128,11 +128,13 @@ public class CouponsDBDAO implements CouponsDao {
 
         DButils.runQuery(SQLcommands.addCouponPurchase, params);
 
-        /*f ((getEndDate().after(Date.valueOf(LocalDate.now())))) {
+        /*
+        Coupon coupon = new Coupon();
+        if ((coupon.getEndDate().after(Date.valueOf(LocalDate.now())))) {
             if (coupon.getAmount() > 0) {
                 coupon.setAmount(coupon.getAmount() - 1); // changing the amount of coupon
-                couponsDBDAO.updateCoupon(coupon); // updating details of coupon
-                couponsDBDAO.addCoupon(coupon);
+                updateCoupon(coupon); // updating details of coupon
+                addCoupon(coupon);
 
                 System.out.println("You purchase a coupon! " + coupon.getTitle());
 
