@@ -1,5 +1,6 @@
 package Facade;
 
+import Exceptions.CouponNotFoundException;
 import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import IFacades.IAdmin;
@@ -34,9 +35,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         if (email.equals(adminEmail) && password.equals(adminPass)) {
             System.out.println("Login successfully");
             return true;
-        } else if (adminEmail == null || adminPass == null) {
-            System.out.println("are you an admin?");
-            return false;
         } else {
             System.out.println("Wrong email or password!");
             return false;
@@ -133,7 +131,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @throws Exception
      * @throws SQLException
      */
-    public void updateCustomer(Customer customer) throws Exception, SQLException {
+    public void updateCustomer(Customer customer){
         customersDBDAO.updateCustomer(customer);
     }
 
@@ -167,7 +165,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @return
      * @throws sqlExceptions
      */
-    public Customer getOneCustomer(int customerID)  {
+    public Customer getOneCustomer(int customerID) throws CouponNotFoundException {
         try {
             return customersDBDAO.getOneCustomer(customerID);
         } catch (sqlExceptions e) {
@@ -175,7 +173,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         } catch (CustomerNotFoundException e) {
             System.out.println("Customer id was not found");
         }
-        return null;
+        throw new CouponNotFoundException("cannot find customer by this id");
     }
     public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
         return couponsDBDAO.getOneCoupon(CouponID);

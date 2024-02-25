@@ -72,7 +72,6 @@ public class CustomersDBDAO implements CustomersDAO {
         ResultSet resultSet = DButils.runQueryFroResult(SQLcommands.getAllCustomers);
 
         while (resultSet.next()) {
-            System.out.println("in get all customer item");
             //id, firstName, lastName, email, password
             Integer id = resultSet.getInt(1);
             String First_Name = resultSet.getString(2);
@@ -82,7 +81,6 @@ public class CustomersDBDAO implements CustomersDAO {
             CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
             myList.add(new Customer(id, First_Name, Last_Name, email, password));
         }
-        System.out.println("i was exited");
         return myList;
     }
 

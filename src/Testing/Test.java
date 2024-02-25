@@ -21,10 +21,14 @@ public class Test {
         Thread jobThread = new Thread(() -> LoginManager.getInstance());
         //  jobThread.start();
 
+        try {
             AdminTesting();
+        } catch (CouponNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         try {
             CompanyTesting();
-        } catch (CategoryErrorException | CouponNotFoundException | DetailsGetWrong e) {
+        } catch (CategoryErrorException | CouponNotFoundException | DetailsGetWrong | CompaniesNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -48,6 +52,7 @@ public class Test {
             customerFacade = (CustomerFacade) LoginManager.getInstance().login(
                     "ofir@ofir.com", "404040", ClientType.CUSTOMER);
             System.out.println("CUSTOMER LOGGING!!!!");
+            System.out.println();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -96,13 +101,14 @@ public class Test {
 
     }
 
-    private static void CompanyTesting() throws CategoryErrorException, CouponNotFoundException, DetailsGetWrong {
+    private static void CompanyTesting() throws CategoryErrorException, CouponNotFoundException, DetailsGetWrong, CompaniesNotFoundException {
         CompanyFacade companyFacade = null;
         try {
 
             companyFacade = (CompanyFacade) LoginManager.getInstance().login(
                     "cisco@cisco.com", "9101112", ClientType.COMPANY);
             System.out.println("COMPANY LOGGING!!!");
+            System.out.println();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -197,14 +203,15 @@ public class Test {
         try {
             companyFacade.getAllCouponsByPrice(4, 2000.0)
                     .forEach(System.out::println);
-        } catch (SQLException e) {
+        } catch (SQLException | priceErrorException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("company details:  " + companyFacade.companyDetails());
+        System.out.println();
 
     }
 
-    private static void AdminTesting() {
+    private static void AdminTesting() throws CouponNotFoundException {
         AdminFacade adminFacade = new AdminFacade();
         try {
             adminFacade = (AdminFacade) LoginManager.getInstance().login(adminFacade.getAdminEmail(),
@@ -330,7 +337,6 @@ public class Test {
         System.out.println();
         try {
             System.out.println("getting all customers:");
-            System.out.println();
             adminFacade.getAllCustomers().forEach(System.out::println);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

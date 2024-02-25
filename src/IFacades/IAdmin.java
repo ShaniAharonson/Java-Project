@@ -1,5 +1,6 @@
 package IFacades;
 
+import Exceptions.CouponNotFoundException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Company;
 import JavaBeans.Customer;
@@ -18,5 +19,5 @@ public interface IAdmin {
     public void updateCustomer(Customer customer) throws Exception, SQLException;
     public void deleteCustomer(int customerID) throws SQLException;
     public List<Customer> getAllCustomers() throws SQLException;
-    public Customer getOneCustomer(int customerID) throws sqlExceptions;
+    public Customer getOneCustomer(int customerID) throws sqlExceptions, CouponNotFoundException;
 }

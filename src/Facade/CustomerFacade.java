@@ -56,8 +56,6 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * first  getting coupon by ID
      * second getting all coupons
      * third checking coupon details
-     *
-     * @param coupon
      */
     public void PurchaseCoupon(int customerID, int couponID) throws AddingCouponException {
 
@@ -97,24 +95,32 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     }
 
     /**
-     * getting coupons up to max price
-     *
-     * @param customerID
-     * @param price
-     * @return the relevant coupons
+     * getting coupon up to max price
+     * @param maxPrice
+     * @return
      * @throws SQLException
      */
     public List<Coupon> getCouponsByPrice(Double maxPrice) throws SQLException {
         return couponsDBDAO.getCustomerCouponsByPrice(getCustomerID(),maxPrice);
     }
 
-
+    /**
+     * the details of customer
+     * @return - customer by its id
+     * @throws sqlExceptions
+     * @throws CustomerNotFoundException
+     */
     public Customer customerDetails() throws sqlExceptions, CustomerNotFoundException {
 
 
         return customersDBDAO.getOneCustomer(this.CustomerID);
     }
 
+    /**
+     * getting one coupon by id
+     * @param couponID
+     * @return
+     */
     public Coupon getOneCoupon(int couponID) {
 
         try {

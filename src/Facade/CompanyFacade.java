@@ -1,9 +1,6 @@
 package Facade;
 
-import Exceptions.CategoryErrorException;
-import Exceptions.CouponNotFoundException;
-import Exceptions.DetailsGetWrong;
-import Exceptions.sqlExceptions;
+import Exceptions.*;
 import IFacades.ICompany;
 import JavaBeans.Category;
 import JavaBeans.Company;
@@ -60,7 +57,7 @@ public class CompanyFacade extends ClientFacade implements ICompany {
     }
 
 
-    public void updateCoupon(Coupon coupon) throws sqlExceptions {
+    public void updateCoupon(Coupon coupon) {
         couponsDBDAO.updateCoupon(coupon);
     }
 
@@ -70,15 +67,15 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
     }
 
-    public List<Coupon> getAllCompanyCoupon(int companyID) {
+    public List<Coupon> getAllCompanyCoupon(int companyID) throws CompaniesNotFoundException {
         try {
             return couponsDBDAO.getAllCompanyCoupons(companyID);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new CompaniesNotFoundException("Error with getting companies");
         }
     }
 
-    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) throws CouponNotFoundException, CategoryErrorException {
+    public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) throws CategoryErrorException {
         try {
             return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID, category);
         } catch (sqlExceptions e) {
@@ -92,14 +89,14 @@ public class CompanyFacade extends ClientFacade implements ICompany {
      * @return
      * @throws SQLException - if we got an sql exception for any reason
      */
-    public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException {
+    public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException, priceErrorException {
         try {
             return couponsDBDAO.getCouponByPrice(companyID, price);
         } catch (SQLException err) {
             try {
                 throw new sqlExceptions(err.getMessage());
             } catch (sqlExceptions e) {
-                throw new RuntimeException(e);
+                throw new priceErrorException("there is no coupons up to this price");
             }
         }
     }
