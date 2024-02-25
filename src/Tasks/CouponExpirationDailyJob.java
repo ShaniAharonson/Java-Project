@@ -4,6 +4,8 @@ import DBDAO.CouponsDBDAO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.SQLException;
+
 public class CouponExpirationDailyJob implements Runnable {
     private CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
     @Setter
@@ -19,9 +21,12 @@ public class CouponExpirationDailyJob implements Runnable {
     @Override
     public void run() {
 
-        //ArrayList<Coupon> coupons = new ArrayList<>();
-
         while (!quit) {
+            try {
+                couponsDBDAO.deletingAllCouponsByEndDate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 if (quit) {
                     stop();

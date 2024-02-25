@@ -75,7 +75,7 @@ public class Test {
 
         System.out.println("All customer coupons from specific category:");
         try {
-            customerFacade.get_All_Customer_Coupons_From_Specific_Category(3,Category.Electricity)
+            customerFacade.get_All_Customer_Coupons_From_Specific_Category(2,Category.Food)
                     .forEach(System.out::println);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

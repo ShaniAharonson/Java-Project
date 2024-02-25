@@ -46,6 +46,8 @@ public class Coupon {
         this.image = image;
     }
 
+
+
     public Integer getId() {
         return id;
     }

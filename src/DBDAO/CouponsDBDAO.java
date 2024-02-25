@@ -257,21 +257,21 @@ public class CouponsDBDAO implements CouponsDao {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, category.ordinal()+1);
-        List<Coupon> couponsFromCategory = new ArrayList<>();
         ResultSet coupon = DButils.runQueryFroResult(SQLCustomerFacade.getGetAllCustomerCouponsFromSpecificCategory,params);
+        List<Coupon> couponsFromCategory = new ArrayList<>();
         while (coupon.next()) {
-            int id = coupon.getInt(1);
-            int companyId = coupon.getInt(2);
+            Integer id = coupon.getInt(1);
+            int CompanyID = coupon.getInt(2);
             int categoryID = coupon.getInt(3);
             String title = coupon.getString(4);
             String description = coupon.getString(5);
             Date startDate = coupon.getDate(6);
             Date endDate = coupon.getDate(7);
-            int amount = coupon.getInt(8);
+            Integer amount = coupon.getInt(8);
             Double price = coupon.getDouble(9);
             String image = coupon.getString(10);
-            Coupon tempCoupon = (new Coupon(id, companyId, categoryID, title, description, startDate,
-                    endDate, amount, price, image));
+            Coupon tempCoupon = (new Coupon(id, CompanyID, categoryID, title, description,
+                    startDate, endDate, amount, price, image));
             couponsFromCategory.add(tempCoupon);
         }
         return couponsFromCategory;
@@ -303,8 +303,7 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public void deletingAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException {
-        ArrayList<Coupon> couponArrayList = new ArrayList<>();
+    public void deletingAllCouponsByEndDate() throws SQLException {
         DButils.runQuery(SQLTasks.getCouponsByEndDate);
 
 

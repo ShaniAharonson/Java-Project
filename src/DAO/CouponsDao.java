@@ -117,9 +117,8 @@ public interface CouponsDao {
 
     /**
      * deleting expired coupons
-     * @param coupons
      * @throws SQLException
      */
-    public void deletingAllCouponsByEndDate(ArrayList<Coupon> coupons) throws SQLException;
+    public void deletingAllCouponsByEndDate() throws SQLException;
 }
 
