@@ -54,7 +54,7 @@ public interface CouponsDao {
      * @param customerID
      * @param couponID
      */
-    public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException;
+    public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException, SQLException;
 
     /**
      * deleting coupon to purchase by customers

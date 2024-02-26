@@ -10,6 +10,7 @@ import cls.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,7 @@ public class CouponsDBDAO implements CouponsDao {
     public void deleteCoupon(int id, int companyID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, id);
-        params.put(2,companyID);
+        params.put(2, companyID);
         DButils.runQuery(SQLcommands.deleteCoupon, params);
     }
 
@@ -97,12 +98,12 @@ public class CouponsDBDAO implements CouponsDao {
     public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CouponID);
-        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCoupon,params);
+        ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCoupon, params);
         try {
             while (result.next()) {
                 int ID = result.getInt(1);
                 int companyID = result.getInt(2);
-                int category =  result.getInt(3);
+                int category = result.getInt(3);
                 String title = result.getString(4);
                 String description = result.getString(5);
                 Date StartDate = result.getDate(6);
@@ -121,28 +122,52 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException {
-        Map<Integer, Object> params = new HashMap<>();
-        params.put(1, customerID);
-        params.put(2, couponID);
+    public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException, SQLException {
+        //get the relevant coupon by copun id -> sql
+        // SQLcommands.getOneCoupon
+        //you need to get the coupon that the customer wants to buy
+//        Coupon coupon = new Coupon();
+        Map<Integer, Object> paramsFind = new HashMap<>();
+        paramsFind.put(1, couponID);
 
-        DButils.runQuery(SQLcommands.addCouponPurchase, params);
+        ResultSet results = DButils.runQueryFroResult(SQLcommands.getOneCoupon, paramsFind);
+        //create the coupon from result
+        while (results.next()) {
+            int ID = results.getInt(1);
+            int companyID = results.getInt(2);
+            int category = results.getInt(3);
+            String title = results.getString(4);
+            String description = results.getString(5);
+            Date StartDate = results.getDate(6);
+            Date EndDate = results.getDate(7);
+            int Amount = results.getInt(8);
+            double Price = results.getDouble(9);
+            String image = results.getString(10);
+            Coupon coupon = new Coupon(ID, companyID, category, title, description, StartDate,
+                    EndDate, Amount, Price, image);
 
-        /*
-        Coupon coupon = new Coupon();
-        if ((coupon.getEndDate().after(Date.valueOf(LocalDate.now())))) {
-            if (coupon.getAmount() > 0) {
-                coupon.setAmount(coupon.getAmount() - 1); // changing the amount of coupon
-                updateCoupon(coupon); // updating details of coupon
-                addCoupon(coupon);
+            Map<Integer, Object> params = new HashMap<>();
+            params.put(1, customerID);
+            params.put(2, couponID);
 
-                System.out.println("You purchase a coupon! " + coupon.getTitle());
+            DButils.runQuery(SQLcommands.addCouponPurchase, params);
 
-            } else {
-                throw new AddingCouponException("Cannot adding coupon!");
-            }*/
+            if ((coupon.getEndDate().after(Date.valueOf(LocalDate.now())))) {
+                if (coupon.getAmount() > 0) {
+                    coupon.setAmount(coupon.getAmount() - 1); // changing the amount of coupon
+                    updateCoupon(coupon); // updating details of coupon
+                    addCoupon(coupon);
 
+                    System.out.println("You purchase a coupon! " + coupon.getTitle());
+
+                } else {
+                    throw new AddingCouponException("Cannot adding coupon!");
+                }
+
+            }
+        }
     }
+
     @Override
     public void deleteCouponPurchase(int customersID, int couponID) {
         Map<Integer, Object> params = new HashMap<>();

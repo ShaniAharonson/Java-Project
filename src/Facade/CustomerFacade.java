@@ -57,7 +57,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      * second getting all coupons
      * third checking coupon details
      */
-    public void PurchaseCoupon(int customerID, int couponID) throws AddingCouponException {
+    public void PurchaseCoupon(int customerID, int couponID) throws AddingCouponException, SQLException {
 
         couponsDBDAO.addCouponPurchase(customerID, couponID);
 

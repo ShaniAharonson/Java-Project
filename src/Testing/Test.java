@@ -32,8 +32,11 @@ public class Test {
             throw new RuntimeException(e);
         }
 
-        CustomerTesting();
-
+        try {
+            CustomerTesting();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
         // System.out.println("Stopping thread!");
@@ -46,7 +49,7 @@ public class Test {
         }*/
     }
 
-    private static void CustomerTesting() {
+    private static void CustomerTesting() throws SQLException {
         CustomerFacade customerFacade = null;
         try {
             customerFacade = (CustomerFacade) LoginManager.getInstance().login(
