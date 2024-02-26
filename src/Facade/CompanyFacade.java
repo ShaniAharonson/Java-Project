@@ -50,23 +50,41 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         return true;
     }
 
-
+    /**
+     * adding coupon to company
+     * @param coupon
+     * @throws SQLException
+     */
     public void addCoupon(Coupon coupon) throws SQLException {
 
         couponsDBDAO.addCoupon(coupon);
     }
 
-
+    /**
+     * update coupon of company
+     * @param coupon
+     */
     public void updateCoupon(Coupon coupon) {
         couponsDBDAO.updateCoupon(coupon);
     }
 
+    /**
+     * delete coupon of company
+     * @param couponID
+     * @param companyID
+     */
     public void deleteExistsCoupon(int couponID, int companyID) {
 
         couponsDBDAO.deleteCoupon(couponID, getCompanyID());
 
     }
 
+    /**
+     * getting all coupons of company
+     * @param companyID
+     * @return
+     * @throws CompaniesNotFoundException
+     */
     public List<Coupon> getAllCompanyCoupon(int companyID) throws CompaniesNotFoundException {
         try {
             return couponsDBDAO.getAllCompanyCoupons(companyID);
@@ -75,6 +93,13 @@ public class CompanyFacade extends ClientFacade implements ICompany {
         }
     }
 
+    /**
+     * getting all coupons of company by category
+     * @param CompanyID
+     * @param category
+     * @return - the relevant coupons from category
+     * @throws CategoryErrorException
+     */
     public List<Coupon> getAllCouponsFromSpecificCategory(int CompanyID, Category category) throws CategoryErrorException {
         try {
             return couponsDBDAO.getAllCompanyCouponFromSpecificCategory(companyID, category);
@@ -84,10 +109,12 @@ public class CompanyFacade extends ClientFacade implements ICompany {
     }
 
     /**
+     * getting all coupons of company by max price
      * @param companyID
      * @param price
      * @return
-     * @throws SQLException - if we got an sql exception for any reason
+     * @throws SQLException
+     * @throws priceErrorException
      */
     public List<Coupon> getAllCouponsByPrice(int companyID, Double price) throws SQLException, priceErrorException {
         try {
@@ -103,19 +130,25 @@ public class CompanyFacade extends ClientFacade implements ICompany {
 
     /**
      * getting company details
-     *
-     * @return - the relevant company by id
+     * @return - details of the relevant company
+     * @throws DetailsGetWrong
      */
     public Company companyDetails() throws DetailsGetWrong {
         try {
             return companiesDBDAO.getOneCompany(getCompanyID());
         } catch (sqlExceptions e) {
             System.out.println(e.getMessage());
-            ;
+
         }
         throw new DetailsGetWrong("fail getting details");
     }
 
+    /**
+     * getting one coupon of company
+     * @param couponID
+     * @return - the specific coupon
+     * @throws CouponNotFoundException
+     */
     public Coupon getOneCoupon(int couponID) throws CouponNotFoundException {
         try {
             return couponsDBDAO.getOneCoupon(couponID);

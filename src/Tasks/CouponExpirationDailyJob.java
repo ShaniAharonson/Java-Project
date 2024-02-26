@@ -13,6 +13,12 @@ public class CouponExpirationDailyJob implements Runnable {
     private boolean quit = false;
 
 // constructor
+
+    /**
+     * thread of expiration daily job
+     * @param couponsDBDAO
+     * @param quit
+     */
     public CouponExpirationDailyJob(CouponsDBDAO couponsDBDAO, boolean quit) {
         this.couponsDBDAO = couponsDBDAO;
         this.quit = quit;

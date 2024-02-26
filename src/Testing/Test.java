@@ -9,6 +9,7 @@ import JavaBeans.Category;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
+import cls.ConnectionPool;
 import cls.LoginManager;
 
 import java.sql.Date;
@@ -39,14 +40,14 @@ public class Test {
         }
 
 
-        // System.out.println("Stopping thread!");
-        // System.exit(0);
+         System.out.println("Stopping thread!");
+         System.exit(0);
 
-    /*    try {
+        try {
             ConnectionPool.getInstance().closeAllConnections();
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
-        }*/
+        }
     }
 
     private static void CustomerTesting() throws SQLException {

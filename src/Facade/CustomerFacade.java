@@ -33,7 +33,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
      *
      * @param email
      * @param password
-     * @return - new customer and message of customer ID
+     * @return - new customer
      * @throws SQLException
      */
     @Override
@@ -52,10 +52,11 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     }
 
     /**
-     * purchasing new coupon
-     * first  getting coupon by ID
-     * second getting all coupons
-     * third checking coupon details
+     * purchasing coupon
+     * @param customerID
+     * @param couponID
+     * @throws AddingCouponException
+     * @throws SQLException
      */
     public void PurchaseCoupon(int customerID, int couponID) throws AddingCouponException, SQLException {
 
@@ -66,7 +67,6 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
     }
     /**
      * getting all customer's coupons
-     *
      * @param customerID
      * @return - the relevant coupons
      */
@@ -83,7 +83,6 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
     /**
      * getting all customer coupons by specific category
-     *
      * @param customerID
      * @param category
      * @return - relevant coupons from the specific category

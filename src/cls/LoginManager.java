@@ -8,6 +8,7 @@ public class LoginManager {
     private static LoginManager instance = null;
 // singleTon class
     // to get one instance of login each time
+
     private LoginManager(){
         System.out.printf("%s instance was invoked\n", this.getClass().getSimpleName());
     }

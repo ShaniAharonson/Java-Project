@@ -42,7 +42,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
     }
 
     /**
-     * adding company function while company doesn't exist yet
+     * adding company while company doesn't exist yet
      *
      * @param company
      * @throws sqlExceptions
@@ -62,7 +62,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * updating company
-     *
      * @param company
      * @throws sqlExceptions
      */
@@ -72,27 +71,18 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * delete company
-     * first-getting all coupon by company id
-     * second-deleting those coupon
-     * third - deleting comapany
-     *
      * @param companyID
      * @throws SQLException
      */
     public void deleteCompany(int companyID) throws SQLException {
-        // Company company  = new Company();
-        /*List<Coupon> companyCoupons = couponsDBDAO.getAllCompanyCoupons(companyID);
-        for (Coupon c : companyCoupons) {
-            couponsDBDAO.deleteCoupon(companyID, companyCoupons.);
-        }*/
+
         companiesDBDAO.deleteCompany(companyID);
 
     }
-// Customers coupons will delete because of cascading in foreign key
+
 
     /**
      * getting all companies from sql table
-     *
      * @return - all companies
      * @throws SQLException
      */
@@ -103,7 +93,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * getting one company by ID
-     *
      * @param companyID
      * @return - the specific company
      * @throws sqlExceptions
@@ -114,8 +103,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * adding customer
-     * first checking if it already exists
-     *
      * @param customer
      * @throws sqlExceptions
      */
@@ -126,7 +113,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * updating customer
-     *
      * @param customer
      * @throws Exception
      * @throws SQLException
@@ -137,9 +123,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * deleting customer
-     * first-deleting his coupons
-     * second-deleting the customer
-     *
      * @param customerID
      * @throws SQLException
      */
@@ -150,7 +133,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * getting all customers from sql table
-     *
      * @return
      * @throws SQLException
      */
@@ -160,7 +142,6 @@ public class AdminFacade extends ClientFacade implements IAdmin {
 
     /**
      * getting one customer by his ID
-     *
      * @param customerID
      * @return
      * @throws sqlExceptions
@@ -175,10 +156,21 @@ public class AdminFacade extends ClientFacade implements IAdmin {
         }
         throw new CouponNotFoundException("cannot find customer by this id");
     }
+
+    /**
+     *  getting one coupon by id
+     * @param CouponID
+     * @return - the relevant coupon
+     * @throws sqlExceptions
+     */
     public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
         return couponsDBDAO.getOneCoupon(CouponID);
     }
 
+    /**
+     * adding category to category sql table
+     * @param category
+     */
     public void addCategory(Category category){
         companiesDBDAO.addCategory(category);
         //System.out.println("i am insinde");
