@@ -163,7 +163,7 @@ public class AdminFacade extends ClientFacade implements IAdmin {
      * @return - the relevant coupon
      * @throws sqlExceptions
      */
-    public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
+    public Coupon getOneCoupon(int CouponID) throws sqlExceptions, CouponNotFoundException {
         return couponsDBDAO.getOneCoupon(CouponID);
     }
 

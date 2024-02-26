@@ -1,6 +1,7 @@
 package Facade;
 
 import Exceptions.AddingCouponException;
+import Exceptions.CouponNotFoundException;
 import Exceptions.CustomerNotFoundException;
 import Exceptions.sqlExceptions;
 import IFacades.ICustomer;
@@ -124,7 +125,7 @@ public class CustomerFacade extends ClientFacade implements ICustomer {
 
         try {
             return couponsDBDAO.getOneCoupon(couponID);
-        } catch (sqlExceptions e) {
+        } catch (sqlExceptions | CouponNotFoundException e) {
             throw new RuntimeException(e);
         }
 

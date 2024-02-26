@@ -2,6 +2,7 @@ package DBDAO;
 
 import DAO.CouponsDao;
 import Exceptions.AddingCouponException;
+import Exceptions.CouponNotFoundException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
@@ -95,7 +96,7 @@ public class CouponsDBDAO implements CouponsDao {
     }
 
     @Override
-    public Coupon getOneCoupon(int CouponID) throws sqlExceptions {
+    public Coupon getOneCoupon(int CouponID) throws sqlExceptions, CouponNotFoundException {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, CouponID);
         ResultSet result = DButils.runQueryFroResult(SQLcommands.getOneCoupon, params);
@@ -116,9 +117,9 @@ public class CouponsDBDAO implements CouponsDao {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new CouponNotFoundException("cannot find coupon!");
         }
-        return null;
+      return null;
     }
 
     @Override

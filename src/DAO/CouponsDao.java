@@ -1,6 +1,7 @@
 package DAO;
 
 import Exceptions.AddingCouponException;
+import Exceptions.CouponNotFoundException;
 import Exceptions.sqlExceptions;
 import JavaBeans.Category;
 import JavaBeans.Coupon;
@@ -47,7 +48,7 @@ public interface CouponsDao {
      * @return
      * @throws sqlExceptions
      */
-    public Coupon getOneCoupon(int CouponID) throws sqlExceptions, SQLException;
+    public Coupon getOneCoupon(int CouponID) throws sqlExceptions, SQLException, CouponNotFoundException;
 
     /**
      * adding coupon to purchase by customers
