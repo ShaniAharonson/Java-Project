@@ -124,8 +124,8 @@ public class CouponsDBDAO implements CouponsDao {
     @Override
     public void addCouponPurchase(int customerID, int couponID) throws AddingCouponException, SQLException {
         //get the relevant coupon by copun id -> sql
-        // SQLcommands.getOneCoupon
-        //you need to get the coupon that the customer wants to buy
+        //SQLcommands.getOneCoupon
+        //get the coupon that the customer wants to buy
 //        Coupon coupon = new Coupon();
         Map<Integer, Object> paramsFind = new HashMap<>();
         paramsFind.put(1, couponID);
